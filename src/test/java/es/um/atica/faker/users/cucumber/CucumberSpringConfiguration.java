@@ -1,4 +1,4 @@
-package es.um.atica.faker.cucumber;
+package es.um.atica.faker.users.cucumber;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

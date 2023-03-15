@@ -1,4 +1,4 @@
-package es.um.atica.faker;
+package es.um.atica.faker.users;
 
 import org.junit.platform.suite.api.ConfigurationParameter;
 import org.junit.platform.suite.api.IncludeEngines;
@@ -8,8 +8,8 @@ import static io.cucumber.junit.platform.engine.Constants.GLUE_PROPERTY_NAME;
 
 @Suite
 @IncludeEngines("cucumber")
-@SelectClasspathResource("features")
-@ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "es.atica.faker.cucumber")
+@SelectClasspathResource("features/users")
+@ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "es.um.atica.faker.users.cucumber")
 public class FakerCucumberTests {
     
 }
