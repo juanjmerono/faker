@@ -50,8 +50,18 @@ public class CucumberSteps extends CucumberSpringConfiguration {
     }
 
     @Entonces("obtiene un error de autenticación")
-    public void obtieneSaludoCordial() throws Exception {
+    public void obtieneUnauthorized() throws Exception {
         assertEquals(401,mvcResult.getResponse().getStatus());
+    }
+
+    @Entonces("obtiene un error de autorización")
+    public void obtieneForbidden() throws Exception {
+        assertEquals(403,mvcResult.getResponse().getStatus());
+    }
+
+    @Entonces("obtiene una respuesta correcta")
+    public void obtieneListadoUsuarios() throws Exception {
+        assertEquals(200,mvcResult.getResponse().getStatus());
     }
 
 }
