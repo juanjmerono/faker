@@ -18,11 +18,16 @@ import io.cucumber.spring.CucumberContextConfiguration;
 @CucumberContextConfiguration
 public class CucumberSteps extends CucumberSpringConfiguration {
 
-    private static final String GET_LISTADO_PATH = "/users";
     private static final String VALID_SCOPE = "SCOPE_test";
 
     private MvcResult mvcResult;
     private RequestPostProcessor jwt;
+    private String apiPath;
+
+    @Dado("^una API ubicada en (.+)$")
+    public void existingAPIPath(String path) {
+        apiPath = path;
+    }
 
     @Dado("un usuario no autenticado")
     public void usuarioNoAutenticado() {
@@ -44,7 +49,7 @@ public class CucumberSteps extends CucumberSpringConfiguration {
 
     @Cuando("trata de obtener un listado de usuarios")
     public void listadoUsuariosGET() throws Exception {
-        mvcResult = mvc.perform(MockMvcRequestBuilders.get(GET_LISTADO_PATH)
+        mvcResult = mvc.perform(MockMvcRequestBuilders.get(apiPath)
             .with(jwt)
             .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
     }
