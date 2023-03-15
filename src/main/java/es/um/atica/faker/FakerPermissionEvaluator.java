@@ -9,12 +9,12 @@ public class FakerPermissionEvaluator implements PermissionEvaluator {
 
     @Override
     public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
-        return "admin@acme.es".equals(((Jwt)authentication.getPrincipal()).getSubject());
+        return (authentication.getPrincipal() instanceof Jwt) && "admin@acme.es".equals(((Jwt)authentication.getPrincipal()).getSubject());
     }
 
     @Override
     public boolean hasPermission(Authentication authentication, Serializable targetId, String targetType, Object permission) {
-        return "admin@acme.es".equals(((Jwt)authentication.getPrincipal()).getSubject());
+        return (authentication.getPrincipal() instanceof Jwt) && "admin@acme.es".equals(((Jwt)authentication.getPrincipal()).getSubject());
     }
     
 }

@@ -27,13 +27,13 @@ Característica: Usuarios
 
 # DETAIL
 
-  @users @detail @error
+  @users @detail @unauthorized @error
   Escenario: Obtener el detalle de un usuario sin autenticar
     Dado un usuario no autenticado
     Cuando trata de obtener el detalle del usuario 30497182-c376-11ed-afa1-0242ac120002
     Entonces obtiene un error de autenticación
 
-  @users @detail @error
+  @users @detail @forbidden @error
   Escenario: Obtener el detalle de un usuario autenticado sin autorización
     Dado el usuario autenticado user@acme.es
     Cuando trata de obtener el detalle del usuario 30497182-c376-11ed-afa1-0242ac120002
@@ -48,13 +48,13 @@ Característica: Usuarios
 
 # CREATE
 
-  #@users @create @error
-  #Escenario: Crear un usuario sin autenticar
-  #  Dado un usuario no autenticado
-  #  Cuando trata de crear el usuario 30497182-c376-11ed-afa1-0242ac120002
-  #  Entonces obtiene un error de autenticación
+  @users @create @unauthorized @error
+  Escenario: Crear un usuario sin autenticar
+    Dado un usuario no autenticado
+    Cuando trata de crear el usuario 30497182-c376-11ed-afa1-0242ac120002
+    Entonces obtiene un error de autenticación
 
-  @users @create @error
+  @users @create @forbidden @error
   Escenario: Crear un usuario autenticado sin autorización
     Dado el usuario autenticado user@acme.es
     Cuando trata de crear el usuario 30497182-c376-11ed-afa1-0242ac120002
@@ -69,13 +69,13 @@ Característica: Usuarios
 
 # UPDATE
 
-  #@users @update @error
-  #Escenario: Actualizar un usuario sin autenticar
-  #  Dado un usuario no autenticado
-  #  Cuando trata de actualizar el usuario 30497182-c376-11ed-afa1-0242ac120002
-  #  Entonces obtiene un error de autenticación
+  @users @update @unauthorized @error
+  Escenario: Actualizar un usuario sin autenticar
+    Dado un usuario no autenticado
+    Cuando trata de actualizar el usuario 30497182-c376-11ed-afa1-0242ac120002
+    Entonces obtiene un error de autenticación
 
-  @users @update @error
+  @users @update @forbidden @error
   Escenario: Actualizar un usuario autenticado sin autorización
     Dado el usuario autenticado user@acme.es
     Cuando trata de actualizar el usuario 30497182-c376-11ed-afa1-0242ac120002
@@ -90,13 +90,13 @@ Característica: Usuarios
 
 # DELETE
 
-  #@users @delete @error
-  #Escenario: Eliminar un usuario sin autenticar
-  #  Dado un usuario no autenticado
-  #  Cuando trata de eliminar el usuario 30497182-c376-11ed-afa1-0242ac120002
-  #  Entonces obtiene un error de autenticación
+  @users @delete @unauthorized @error
+  Escenario: Eliminar un usuario sin autenticar
+    Dado un usuario no autenticado
+    Cuando trata de eliminar el usuario 30497182-c376-11ed-afa1-0242ac120002
+    Entonces obtiene un error de autenticación
 
-  @users @delete @error
+  @users @delete @forbidden @error
   Escenario: Eliminar un usuario autenticado sin autorización
     Dado el usuario autenticado user@acme.es
     Cuando trata de eliminar el usuario 30497182-c376-11ed-afa1-0242ac120002
