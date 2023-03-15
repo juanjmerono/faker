@@ -1,6 +1,6 @@
 package es.um.atica.faker.users.adapters.rest.dto;
 
-import es.um.atica.faker.users.domain.User;
+import es.um.atica.faker.users.domain.model.User;
 import lombok.Builder;
 import lombok.Getter;
 
