@@ -31,8 +31,8 @@ jobs:
       - name: All the Tests and Coverage check
         run: ./mvnw clean install
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: cucumber
-          path: target/cucumber-reports/
+      #- name: Upload artifacts
+      #  uses: actions/upload-artifact@v3
+      #  with:
+      #    name: cucumber
+      #    path: target/cucumber-reports/
