@@ -16,7 +16,12 @@ import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
+import es.um.atica.faker.users.adapters.rest.dto.ErrorDTO;
 import es.um.atica.faker.users.adapters.rest.dto.UserDTO;
+import es.um.atica.faker.users.domain.event.UserCreated;
+import es.um.atica.faker.users.domain.event.UserDeleted;
+import es.um.atica.faker.users.domain.event.UserUpdated;
+import es.um.atica.shared.domain.events.Event;
 import io.cucumber.java.Before;
 import io.cucumber.java.es.Cuando;
 import io.cucumber.java.es.Dado;
@@ -38,7 +43,7 @@ public class CucumberSteps extends CucumberSpringConfiguration {
         objectMapper.registerModule(new Jackson2HalModule());
     }
 
-    @Dado("^una API ubicada en (.+)$")
+    @Dado("una API ubicada en {string}")
     public void existingAPIPath(String path) {
         apiPath = path;
     }
@@ -54,7 +59,7 @@ public class CucumberSteps extends CucumberSpringConfiguration {
         };
     }
 
-    @Dado("^el usuario autenticado (.+)$")
+    @Dado("el usuario autenticado {string}")
     public void usuarioAutenticado(String authUser) {
         jwt = SecurityMockMvcRequestPostProcessors.jwt()
                 .jwt(u->u.subject(authUser))
@@ -68,28 +73,34 @@ public class CucumberSteps extends CucumberSpringConfiguration {
             .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
     }
 
-    @Cuando("^trata de obtener el detalle del usuario (.+)$")
+    @Cuando("trata de obtener el detalle del usuario {string}")
     public void detalleUsuariosGET(String id) throws Exception {
         mvcResult = mvc.perform(MockMvcRequestBuilders.get(apiPath+"/"+id)
             .with(jwt)
             .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
     }
 
-    @Cuando("^trata de crear el usuario (.+)$")
-    public void createUsuarioPOST(String id) throws Exception {
+    @Cuando("trata de crear el usuario {string} con nombre {string}")
+    public void createUsuarioPOST(String id, String name) throws Exception {
+        UserDTO usr = UserDTO.builder().id(id).name(name).build();
         mvcResult = mvc.perform(MockMvcRequestBuilders.post(apiPath+"/"+id)
             .with(jwt)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .content(objectMapper.writeValueAsString(usr))
             .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
     }
 
-    @Cuando("^trata de actualizar el usuario (.+)$")
-    public void updateUsuarioPUT(String id) throws Exception {
+    @Cuando("trata de actualizar el usuario {string} con nombre {string}")
+    public void updateUsuarioPUT(String id, String name) throws Exception {
+        UserDTO usr = UserDTO.builder().id(id).name(name).build();
         mvcResult = mvc.perform(MockMvcRequestBuilders.put(apiPath+"/"+id)
             .with(jwt)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .content(objectMapper.writeValueAsString(usr))
             .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
     }
 
-    @Cuando("^trata de eliminar el usuario (.+)$")
+    @Cuando("trata de eliminar el usuario {string}")
     public void deleteUsuarioPUT(String id) throws Exception {
         mvcResult = mvc.perform(MockMvcRequestBuilders.delete(apiPath+"/"+id)
             .with(jwt)
@@ -107,8 +118,17 @@ public class CucumberSteps extends CucumberSpringConfiguration {
     }
 
     @Entonces("obtiene una respuesta correcta")
-    public void obtieneListadoUsuarios() throws Exception {
+    public void obtieneOk() throws Exception {
         assertEquals(200,mvcResult.getResponse().getStatus());
+    }
+
+    @Entonces("obtiene una respuesta de elemento no encontrado")
+    public void obtieneNotFound() throws Exception {
+        assertEquals(404,mvcResult.getResponse().getStatus());
+        ErrorDTO error = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<ErrorDTO>() {});
+        assertEquals(404, error.getStatus());
+        assertEquals("java.util.NoSuchElementException", error.getException());
+        assertEquals("No value present", error.getError());
     }
 
     @Y("la lista de usuarios no está vacía")
@@ -117,10 +137,47 @@ public class CucumberSteps extends CucumberSpringConfiguration {
         assertTrue(userList.getContent().size()>0);
     }
 
-    @Y("^el usuario con id (.+)$")
+    @Y("el usuario con id {string}")
     public void userWithId(String id) throws Exception {
         EntityModel<UserDTO> userList = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<EntityModel<UserDTO>>() {});
         assertEquals(id,userList.getContent().getId());
+    }
+
+    private void userWithId(String id, Class<? extends Event> ev, int cnt) throws Exception {
+        userWithId(id);
+        assertEquals(cnt,applicationEvents
+                .stream(ev)
+                .filter(event -> id.equals(event.getAggregateId()))
+                .count());
+    }
+
+    @Y("el usuario con id {string} es creado")
+    public void userIsCreated(String id) throws Exception {
+        userWithId(id,UserCreated.class,1);
+    }
+
+    @Y("el usuario con id {string} no es creado")
+    public void userIsNotCreated(String id) throws Exception {
+        userWithId(id,UserCreated.class,0);
+    }
+
+    @Y("el usuario con id {string} es actualizado")
+    public void userIsUpdated(String id) throws Exception {
+        userWithId(id,UserUpdated.class,1);
+    }
+    @Y("el usuario con id {string} no es actualizado")
+    public void userIsNotUpdated(String id) throws Exception {
+        userWithId(id,UserUpdated.class,0);
+    }
+
+    @Y("el usuario con id {string} es eliminado")
+    public void userIsDeleted(String id) throws Exception {
+        userWithId(id,UserDeleted.class,1);
+    }
+
+    @Y("el usuario con id {string} no es eliminado")
+    public void userIsNotDeleted(String id) throws Exception {
+        userWithId(id,UserDeleted.class,0);
     }
 
 }

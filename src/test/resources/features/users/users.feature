@@ -2,7 +2,7 @@
 Característica: Usuarios
 
   Antecedentes: Disponemos de una API de usuarios
-    Dado una API ubicada en /faker/v1/user
+    Dado una API ubicada en "/faker/v1/user"
 
 # LIST
 
@@ -14,13 +14,13 @@ Característica: Usuarios
 
   @users @listado @forbidden @error
   Escenario: Obtener un listado inicial de usuarios autenticado sin autorización
-    Dado el usuario autenticado user@acme.es
+    Dado el usuario autenticado "user@acme.es"
     Cuando trata de obtener un listado de usuarios
     Entonces obtiene un error de autorización
 
   @users @listado @success
   Escenario: Obtener un listado inicial de usuarios autenticado con autorización
-    Dado el usuario autenticado admin@acme.es
+    Dado el usuario autenticado "admin@acme.es"
     Cuando trata de obtener un listado de usuarios
     Entonces obtiene una respuesta correcta
     Y la lista de usuarios no está vacía
@@ -30,81 +30,108 @@ Característica: Usuarios
   @users @detail @unauthorized @error
   Escenario: Obtener el detalle de un usuario sin autenticar
     Dado un usuario no autenticado
-    Cuando trata de obtener el detalle del usuario 30497182-c376-11ed-afa1-0242ac120002
+    Cuando trata de obtener el detalle del usuario "30497182-c376-11ed-afa1-0242ac120002"
     Entonces obtiene un error de autenticación
 
   @users @detail @forbidden @error
   Escenario: Obtener el detalle de un usuario autenticado sin autorización
-    Dado el usuario autenticado user@acme.es
-    Cuando trata de obtener el detalle del usuario 30497182-c376-11ed-afa1-0242ac120002
+    Dado el usuario autenticado "user@acme.es"
+    Cuando trata de obtener el detalle del usuario "30497182-c376-11ed-afa1-0242ac120002"
     Entonces obtiene un error de autorización
 
   @users @detail @success
   Escenario: Obtener el detalle de un usuario autenticado con autorización
-    Dado el usuario autenticado admin@acme.es
-    Cuando trata de obtener el detalle del usuario 30497182-c376-11ed-afa1-0242ac120002
+    Dado el usuario autenticado "admin@acme.es"
+    Cuando trata de obtener el detalle del usuario "30497182-c376-11ed-afa1-0242ac120002"
     Entonces obtiene una respuesta correcta
-    Y el usuario con id 30497182-c376-11ed-afa1-0242ac120002
+    Y el usuario con id "30497182-c376-11ed-afa1-0242ac120002"
+
+  @users @detail @success
+  Escenario: Obtener el detalle de un usuario inexistente autenticado con autorización
+    Dado el usuario autenticado "admin@acme.es"
+    Cuando trata de obtener el detalle del usuario "30497182-c376-11ed-afa1-0242ac120009"
+    Entonces obtiene una respuesta de elemento no encontrado
 
 # CREATE
 
   @users @create @unauthorized @error
   Escenario: Crear un usuario sin autenticar
     Dado un usuario no autenticado
-    Cuando trata de crear el usuario 30497182-c376-11ed-afa1-0242ac120002
+    Cuando trata de crear el usuario "30497182-c376-11ed-afa1-0242ac120001" con nombre "Pepe Lopez"
     Entonces obtiene un error de autenticación
 
   @users @create @forbidden @error
   Escenario: Crear un usuario autenticado sin autorización
-    Dado el usuario autenticado user@acme.es
-    Cuando trata de crear el usuario 30497182-c376-11ed-afa1-0242ac120002
+    Dado el usuario autenticado "user@acme.es"
+    Cuando trata de crear el usuario "30497182-c376-11ed-afa1-0242ac120001" con nombre "Pepe Lopez"
     Entonces obtiene un error de autorización
 
   @users @create @success
   Escenario: Crear un usuario autenticado con autorización
-    Dado el usuario autenticado admin@acme.es
-    Cuando trata de crear el usuario 30497182-c376-11ed-afa1-0242ac120002
+    Dado el usuario autenticado "admin@acme.es"
+    Cuando trata de crear el usuario "30497182-c376-11ed-afa1-0242ac120001" con nombre "Pepe Lopez"
     Entonces obtiene una respuesta correcta
-    Y el usuario con id 30497182-c376-11ed-afa1-0242ac120002
+    Y el usuario con id "30497182-c376-11ed-afa1-0242ac120001" es creado
+
+  @users @create @error
+  Escenario: Crear un usuario sin nombre autenticado con autorización
+    Dado el usuario autenticado "admin@acme.es"
+    Cuando trata de crear el usuario "30497182-c376-11ed-afa1-0242ac120003" con nombre "          "
+    Entonces obtiene una respuesta correcta
+    Y el usuario con id "30497182-c376-11ed-afa1-0242ac120003" no es creado
 
 # UPDATE
 
   @users @update @unauthorized @error
   Escenario: Actualizar un usuario sin autenticar
     Dado un usuario no autenticado
-    Cuando trata de actualizar el usuario 30497182-c376-11ed-afa1-0242ac120002
+    Cuando trata de actualizar el usuario "30497182-c376-11ed-afa1-0242ac120002" con nombre "Pepe Lopez"
     Entonces obtiene un error de autenticación
 
   @users @update @forbidden @error
   Escenario: Actualizar un usuario autenticado sin autorización
-    Dado el usuario autenticado user@acme.es
-    Cuando trata de actualizar el usuario 30497182-c376-11ed-afa1-0242ac120002
+    Dado el usuario autenticado "user@acme.es"
+    Cuando trata de actualizar el usuario "30497182-c376-11ed-afa1-0242ac120002" con nombre "Pepe Lopez"
     Entonces obtiene un error de autorización
 
   @users @update @success
   Escenario: Actualizar un usuario autenticado con autorización
-    Dado el usuario autenticado admin@acme.es
-    Cuando trata de actualizar el usuario 30497182-c376-11ed-afa1-0242ac120002
+    Dado el usuario autenticado "admin@acme.es"
+    Cuando trata de actualizar el usuario "30497182-c376-11ed-afa1-0242ac120002" con nombre "Pepe Lopez"
     Entonces obtiene una respuesta correcta
-    Y el usuario con id 30497182-c376-11ed-afa1-0242ac120002
+    Y el usuario con id "30497182-c376-11ed-afa1-0242ac120002" es actualizado
+
+  @users @update @error
+  Escenario: Actualizar un usuario sin nombre autenticado con autorización
+    Dado el usuario autenticado "admin@acme.es"
+    Cuando trata de actualizar el usuario "30497182-c376-11ed-afa1-0242ac120002" con nombre "         "
+    Entonces obtiene una respuesta correcta
+    Y el usuario con id "30497182-c376-11ed-afa1-0242ac120002" no es actualizado
 
 # DELETE
 
   @users @delete @unauthorized @error
   Escenario: Eliminar un usuario sin autenticar
     Dado un usuario no autenticado
-    Cuando trata de eliminar el usuario 30497182-c376-11ed-afa1-0242ac120002
+    Cuando trata de eliminar el usuario "30497182-c376-11ed-afa1-0242ac120002"
     Entonces obtiene un error de autenticación
 
   @users @delete @forbidden @error
   Escenario: Eliminar un usuario autenticado sin autorización
-    Dado el usuario autenticado user@acme.es
-    Cuando trata de eliminar el usuario 30497182-c376-11ed-afa1-0242ac120002
+    Dado el usuario autenticado "user@acme.es"
+    Cuando trata de eliminar el usuario "30497182-c376-11ed-afa1-0242ac120002"
     Entonces obtiene un error de autorización
 
   @users @delete @success
   Escenario: Eliminar un usuario autenticado con autorización
-    Dado el usuario autenticado admin@acme.es
-    Cuando trata de eliminar el usuario 30497182-c376-11ed-afa1-0242ac120002
+    Dado el usuario autenticado "admin@acme.es"
+    Cuando trata de eliminar el usuario "30497182-c376-11ed-afa1-0242ac120002"
     Entonces obtiene una respuesta correcta
-    Y el usuario con id 30497182-c376-11ed-afa1-0242ac120002
+    Y el usuario con id "30497182-c376-11ed-afa1-0242ac120002" es eliminado
+
+  @users @delete @error
+  Escenario: Eliminar un usuario inexistente autenticado con autorización
+    Dado el usuario autenticado "admin@acme.es"
+    Cuando trata de eliminar el usuario "30497182-c376-11ed-afa1-0242ac120005"
+    Entonces obtiene una respuesta correcta
+    Y el usuario con id "30497182-c376-11ed-afa1-0242ac120005" no es eliminado

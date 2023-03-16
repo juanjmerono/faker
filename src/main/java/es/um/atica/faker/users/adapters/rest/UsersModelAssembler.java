@@ -33,7 +33,7 @@ public class UsersModelAssembler implements RepresentationModelAssembler<UserDTO
     @Override
     public CollectionModel<EntityModel<UserDTO>> toCollectionModel(Iterable<? extends UserDTO> entities) {
         PagedModel<EntityModel<UserDTO>> model = pagedResourcesAssembler.toModel((Page)entities, this);
-        model.add(linkTo(methodOn(UsersCommandRestController.class).createUser(null, null)).withRel("post"));
+        model.add(linkTo(methodOn(UsersCommandRestController.class).createUser(null, null, null)).withRel("post"));
         return model; 
 
     }

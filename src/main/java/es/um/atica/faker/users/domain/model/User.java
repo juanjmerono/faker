@@ -3,6 +3,8 @@ package es.um.atica.faker.users.domain.model;
 import java.util.UUID;
 
 import es.um.atica.faker.users.domain.event.UserCreated;
+import es.um.atica.faker.users.domain.event.UserDeleted;
+import es.um.atica.faker.users.domain.event.UserUpdated;
 import es.um.atica.shared.domain.ddd.AggregateRoot;
 import es.um.atica.shared.domain.events.Event;
 import es.um.atica.shared.domain.events.EventCollection;
@@ -28,6 +30,15 @@ public class User implements AggregateRoot {
         User usr = User.of(id,name);
         usr.addEvent(UserCreated.of(usr));
         return usr;
+    }
+
+    public void updateUser(UserName name) {
+        this.name = name;
+        this.addEvent(UserUpdated.of(this));
+    }
+
+    public void deleteUser() {
+        this.addEvent(UserDeleted.of(this));
     }
 
     @Override

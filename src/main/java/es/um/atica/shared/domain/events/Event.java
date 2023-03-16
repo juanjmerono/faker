@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
 
-public class Event {
+public abstract class Event {
 
     private EventId id;
     private LocalDateTime date;
@@ -27,5 +27,7 @@ public class Event {
     public LocalDateTime getDate() {
         return date;
     }
+
+    public abstract String getAggregateId();
 
 }

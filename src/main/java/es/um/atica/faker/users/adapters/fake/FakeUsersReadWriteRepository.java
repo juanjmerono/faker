@@ -2,12 +2,9 @@ package es.um.atica.faker.users.adapters.fake;
 
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
@@ -40,7 +37,7 @@ public class FakeUsersReadWriteRepository implements UsersReadRepository,UsersWr
 
     @Override
     public Optional<User> findUser(String userId) {
-        return Optional.of(users.get(userId));
+        return users.containsKey(userId)?Optional.of(users.get(userId)):Optional.empty();
     }
 
     @Override
