@@ -131,6 +131,20 @@ public class CucumberSteps extends CucumberSpringConfiguration {
         assertEquals("No value present", error.getError());
     }
 
+    @Entonces("obtiene una respuesta de elemento existente")
+    public void obtieneConflict() throws Exception {
+        assertEquals(409,mvcResult.getResponse().getStatus());
+    }
+
+    @Entonces("obtiene una respuesta de argumento ilegal")
+    public void obtieneIllegal() throws Exception {
+        assertEquals(400,mvcResult.getResponse().getStatus());
+        ErrorDTO error = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<ErrorDTO>() {});
+        assertEquals(400, error.getStatus());
+        assertEquals("java.lang.IllegalArgumentException", error.getException());
+        assertEquals("User name not valid!", error.getError());
+    }
+
     @Y("la lista de usuarios no está vacía")
     public void notEmptyList() throws Exception {
         CollectionModel<EntityModel<UserDTO>> userList = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<CollectionModel<EntityModel<UserDTO>>>() {});
@@ -143,9 +157,15 @@ public class CucumberSteps extends CucumberSpringConfiguration {
         assertEquals(id,userList.getContent().getId());
     }
 
-    private void userWithId(String id, Class<? extends Event> ev, int cnt) throws Exception {
-        userWithId(id);
-        assertEquals(cnt,applicationEvents
+    private void userEventNotLaunched(String id, Class<? extends Event> ev) throws Exception {
+        assertEquals(0,applicationEvents
+                .stream(ev)
+                .filter(event -> id.equals(event.getAggregateId()))
+                .count());
+    }
+
+    private void userEventLaunched(String id, Class<? extends Event> ev) throws Exception {
+        assertEquals(1,applicationEvents
                 .stream(ev)
                 .filter(event -> id.equals(event.getAggregateId()))
                 .count());
@@ -153,31 +173,35 @@ public class CucumberSteps extends CucumberSpringConfiguration {
 
     @Y("el usuario con id {string} es creado")
     public void userIsCreated(String id) throws Exception {
-        userWithId(id,UserCreated.class,1);
+        userWithId(id);
+        userEventLaunched(id,UserCreated.class);
     }
 
     @Y("el usuario con id {string} no es creado")
     public void userIsNotCreated(String id) throws Exception {
-        userWithId(id,UserCreated.class,0);
+        userEventNotLaunched(id,UserCreated.class);
     }
 
     @Y("el usuario con id {string} es actualizado")
     public void userIsUpdated(String id) throws Exception {
-        userWithId(id,UserUpdated.class,1);
+        userWithId(id);
+        userEventLaunched(id,UserUpdated.class);
     }
     @Y("el usuario con id {string} no es actualizado")
     public void userIsNotUpdated(String id) throws Exception {
-        userWithId(id,UserUpdated.class,0);
+        userEventNotLaunched(id,UserUpdated.class);
     }
 
     @Y("el usuario con id {string} es eliminado")
     public void userIsDeleted(String id) throws Exception {
-        userWithId(id,UserDeleted.class,1);
+        userWithId(id);
+        userEventLaunched(id,UserDeleted.class);
     }
 
     @Y("el usuario con id {string} no es eliminado")
     public void userIsNotDeleted(String id) throws Exception {
-        userWithId(id,UserDeleted.class,0);
+        userWithId(id);
+        userEventNotLaunched(id,UserDeleted.class);
     }
 
 }

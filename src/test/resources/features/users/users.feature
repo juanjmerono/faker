@@ -77,7 +77,14 @@ Característica: Usuarios
   Escenario: Crear un usuario sin nombre autenticado con autorización
     Dado el usuario autenticado "admin@acme.es"
     Cuando trata de crear el usuario "30497182-c376-11ed-afa1-0242ac120003" con nombre "          "
-    Entonces obtiene una respuesta correcta
+    Entonces obtiene una respuesta de argumento ilegal
+    Y el usuario con id "30497182-c376-11ed-afa1-0242ac120003" no es creado
+
+  @users @create @error
+  Escenario: Crear un usuario que ya existe autenticado con autorización
+    Dado el usuario autenticado "admin@acme.es"
+    Cuando trata de crear el usuario "30497182-c376-11ed-afa1-0242ac120002" con nombre "Pepe Lopez"
+    Entonces obtiene una respuesta de elemento existente
     Y el usuario con id "30497182-c376-11ed-afa1-0242ac120003" no es creado
 
 # UPDATE
@@ -105,7 +112,7 @@ Característica: Usuarios
   Escenario: Actualizar un usuario sin nombre autenticado con autorización
     Dado el usuario autenticado "admin@acme.es"
     Cuando trata de actualizar el usuario "30497182-c376-11ed-afa1-0242ac120002" con nombre "         "
-    Entonces obtiene una respuesta correcta
+    Entonces obtiene una respuesta de argumento ilegal
     Y el usuario con id "30497182-c376-11ed-afa1-0242ac120002" no es actualizado
 
 # DELETE

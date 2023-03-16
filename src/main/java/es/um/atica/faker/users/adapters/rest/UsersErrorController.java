@@ -27,4 +27,34 @@ public class UsersErrorController {
                     .build());
     }
 
+    @ExceptionHandler(UnsupportedOperationException.class)
+    public ResponseEntity<ErrorDTO> handleUnsupportedException(Exception ex, HttpServletRequest req) {
+        return ResponseEntity
+            .status(HttpStatus.CONFLICT)
+            .body(ErrorDTO.builder()
+                    .status(409)
+                    .timestamp(System.currentTimeMillis())
+                    .error(ex.getMessage())
+                    .exception(ex.getClass().getName())
+                    .path(req.getRequestURI())
+                    .method(req.getMethod())
+                    .principal(req.getUserPrincipal().getName())
+                    .build());
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorDTO> handleIllegalArgumentException(Exception ex, HttpServletRequest req) {
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(ErrorDTO.builder()
+                    .status(400)
+                    .timestamp(System.currentTimeMillis())
+                    .error(ex.getMessage())
+                    .exception(ex.getClass().getName())
+                    .path(req.getRequestURI())
+                    .method(req.getMethod())
+                    .principal(req.getUserPrincipal().getName())
+                    .build());
+    }
+
 }

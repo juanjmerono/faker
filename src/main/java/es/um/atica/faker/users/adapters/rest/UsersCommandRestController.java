@@ -33,10 +33,8 @@ public class UsersCommandRestController {
     @PreAuthorize("hasPermission(#jwt, 'CREATE_USERS')")
     public EntityModel<UserDTO> createUser(@AuthenticationPrincipal Jwt jwt, 
         @PathVariable(name="id",required = true) String userId,
-        @RequestBody UserDTO usr) {
-        try {
-            commandBus.handle(CreateUserCommand.of(userId, usr.getName()));
-        } catch (Exception ex) {}
+        @RequestBody UserDTO usr) throws Exception {
+        commandBus.handle(CreateUserCommand.of(userId, usr.getName()));
         return usersModelAssembler.toModel(UserDTO.builder().id(userId).build());
     }
 
@@ -44,20 +42,16 @@ public class UsersCommandRestController {
     @PreAuthorize("hasPermission(#jwt, 'UPDATE_USERS')")
     public EntityModel<UserDTO> updateUser(@AuthenticationPrincipal Jwt jwt, 
         @PathVariable(name="id",required = true) String userId,
-        @RequestBody UserDTO usr) {
-        try {
-            commandBus.handle(UpdateUserCommand.of(userId, usr.getName()));
-        } catch (Exception ex) {}
+        @RequestBody UserDTO usr) throws Exception {
+        commandBus.handle(UpdateUserCommand.of(userId, usr.getName()));
         return usersModelAssembler.toModel(UserDTO.builder().id(userId).build());
     }
 
     @DeleteMapping("/user/{id}")
     @PreAuthorize("hasPermission(#jwt, 'DELETE_USERS')")
     public EntityModel<UserDTO> deleteUser(@AuthenticationPrincipal Jwt jwt, 
-        @PathVariable(name="id",required = true) String userId) {
-        try {
-            commandBus.handle(DeleteUserCommand.of(userId));
-        } catch (Exception ex) {}
+        @PathVariable(name="id",required = true) String userId) throws Exception {
+        commandBus.handle(DeleteUserCommand.of(userId));
         return usersModelAssembler.toModel(UserDTO.builder().id(userId).build());
     }
 
