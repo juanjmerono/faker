@@ -21,4 +21,4 @@ jobs:
           distribution: 'adopt'
 
       - name: All the Tests and Coverage check
-        run: mvnw clean install
+        run: ./mvnw clean install
