@@ -18,6 +18,7 @@ import es.um.atica.faker.users.application.services.command.CreateUserCommand;
 import es.um.atica.faker.users.application.services.command.DeleteUserCommand;
 import es.um.atica.faker.users.application.services.command.UpdateUserCommand;
 import es.um.atica.shared.domain.cqrs.CommandBus;
+import es.um.atica.shared.domain.cqrs.SyncCommandBus;
 
 @RestController
 @RequestMapping(value="/faker/v1")
@@ -25,7 +26,10 @@ public class UsersCommandRestController {
     
     @Autowired
     private CommandBus commandBus;
-    
+
+    @Autowired
+    private SyncCommandBus syncCommandBus;
+
     @Autowired
     private UsersModelAssembler usersModelAssembler;
 
@@ -34,7 +38,7 @@ public class UsersCommandRestController {
     public EntityModel<UserDTO> createUser(@AuthenticationPrincipal Jwt jwt, 
         @PathVariable(name="id",required = true) String userId,
         @RequestBody UserDTO usr) throws Exception {
-        commandBus.handle(CreateUserCommand.of(userId, usr.getName()));
+        syncCommandBus.handle(CreateUserCommand.of(userId, usr.getName()));
         return usersModelAssembler.toModel(UserDTO.builder().id(userId).build());
     }
 

@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.UUID;
 
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +17,7 @@ import es.um.atica.faker.users.domain.model.User;
 import es.um.atica.faker.users.domain.model.UserName;
 
 @Service
-@Primary
+//@org.springframework.context.annotation.Primary
 public class FakeUsersReadWriteRepository implements UsersReadRepository,UsersWriteRepository {
 
     private Map<String,User> users = new HashMap<>();
@@ -30,6 +29,7 @@ public class FakeUsersReadWriteRepository implements UsersReadRepository,UsersWr
             users.put(u.getId().toString(),u);
         }
         users.put("30497182-c376-11ed-afa1-0242ac120002",User.of(UUID.fromString("30497182-c376-11ed-afa1-0242ac120002"),UserName.of(faker.name().fullName())));
+        users.put("30497182-c376-11ed-afa1-0242ac220002",User.of(UUID.fromString("30497182-c376-11ed-afa1-0242ac220002"),UserName.of(faker.name().fullName())));
     }
 
     @Override

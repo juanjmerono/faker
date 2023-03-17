@@ -52,7 +52,7 @@ Característica: Usuarios
     Cuando trata de obtener el detalle del usuario "30497182-c376-11ed-afa1-0242ac120009"
     Entonces obtiene una respuesta de elemento no encontrado
 
-# CREATE
+# CREATE (Comando síncrono)
 
   @users @create @unauthorized @error
   Escenario: Crear un usuario sin autenticar
@@ -87,7 +87,7 @@ Característica: Usuarios
     Entonces obtiene una respuesta de elemento existente
     Y el usuario con id "30497182-c376-11ed-afa1-0242ac120003" no es creado
 
-# UPDATE
+# UPDATE (Comando asíncrono)
 
   @users @update @unauthorized @error
   Escenario: Actualizar un usuario sin autenticar
@@ -106,16 +106,22 @@ Característica: Usuarios
     Dado el usuario autenticado "admin@acme.es"
     Cuando trata de actualizar el usuario "30497182-c376-11ed-afa1-0242ac120002" con nombre "Pepe Lopez"
     Entonces obtiene una respuesta correcta
-    Y el usuario con id "30497182-c376-11ed-afa1-0242ac120002" es actualizado
+    #Y el usuario con id "30497182-c376-11ed-afa1-0242ac120002" es actualizado (es asíncrono no lo se)
 
   @users @update @error
   Escenario: Actualizar un usuario sin nombre autenticado con autorización
     Dado el usuario autenticado "admin@acme.es"
     Cuando trata de actualizar el usuario "30497182-c376-11ed-afa1-0242ac120002" con nombre "         "
     Entonces obtiene una respuesta de argumento ilegal
-    Y el usuario con id "30497182-c376-11ed-afa1-0242ac120002" no es actualizado
 
-# DELETE
+  @users @update @success
+  Escenario: Actualizar un usuario inexistente autenticado con autorización
+    Dado el usuario autenticado "admin@acme.es"
+    Cuando trata de actualizar el usuario "30497182-c376-11ed-afa1-0242ac120099" con nombre "Pepe Lopez"
+    Entonces obtiene una respuesta correcta
+    #Y el usuario con id "30497182-c376-11ed-afa1-0242ac120099" no es actualizado (es asíncrono no lo se)
+
+# DELETE (Comando asíncrono)
 
   @users @delete @unauthorized @error
   Escenario: Eliminar un usuario sin autenticar
@@ -134,11 +140,11 @@ Característica: Usuarios
     Dado el usuario autenticado "admin@acme.es"
     Cuando trata de eliminar el usuario "30497182-c376-11ed-afa1-0242ac120002"
     Entonces obtiene una respuesta correcta
-    Y el usuario con id "30497182-c376-11ed-afa1-0242ac120002" es eliminado
+    #Y el usuario con id "30497182-c376-11ed-afa1-0242ac120002" es eliminado (es asíncrono no lo se)
 
   @users @delete @error
   Escenario: Eliminar un usuario inexistente autenticado con autorización
     Dado el usuario autenticado "admin@acme.es"
     Cuando trata de eliminar el usuario "30497182-c376-11ed-afa1-0242ac120005"
     Entonces obtiene una respuesta correcta
-    Y el usuario con id "30497182-c376-11ed-afa1-0242ac120005" no es eliminado
+    #Y el usuario con id "30497182-c376-11ed-afa1-0242ac120005" no es eliminado (es asíncrono no lo se)

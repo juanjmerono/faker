@@ -2,7 +2,11 @@ package es.um.atica.faker.users.cucumber;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.never;
 
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.mediatype.hal.Jackson2HalModule;
@@ -22,6 +26,7 @@ import es.um.atica.faker.users.domain.event.UserCreated;
 import es.um.atica.faker.users.domain.event.UserDeleted;
 import es.um.atica.faker.users.domain.event.UserUpdated;
 import es.um.atica.shared.domain.events.Event;
+import es.um.atica.shared.domain.events.EventBus;
 import io.cucumber.java.Before;
 import io.cucumber.java.es.Cuando;
 import io.cucumber.java.es.Dado;
@@ -37,6 +42,9 @@ public class CucumberSteps extends CucumberSpringConfiguration {
     private MvcResult mvcResult;
     private RequestPostProcessor jwt;
     private String apiPath;
+
+    @SpyBean
+    private EventBus eventBus;
 
     @Before
     public void setup() {
@@ -157,51 +165,47 @@ public class CucumberSteps extends CucumberSpringConfiguration {
         assertEquals(id,userList.getContent().getId());
     }
 
-    private void userEventNotLaunched(String id, Class<? extends Event> ev) throws Exception {
-        assertEquals(0,applicationEvents
-                .stream(ev)
-                .filter(event -> id.equals(event.getAggregateId()))
-                .count());
+    private void userEventNotLaunched(String id, ArgumentCaptor<? extends Event> ev) throws Exception {
+        Mockito.verify(eventBus,never()).publish(ev.capture());
+        assertEquals(0, ev.getAllValues().size());
     }
 
-    private void userEventLaunched(String id, Class<? extends Event> ev) throws Exception {
-        assertEquals(1,applicationEvents
-                .stream(ev)
-                .filter(event -> id.equals(event.getAggregateId()))
-                .count());
+    private void userEventLaunched(String id, ArgumentCaptor<? extends Event> ev) throws Exception {
+        Mockito.verify(eventBus).publish(ev.capture());
+        assertEquals(id, ev.getValue().getAggregateId());
     }
 
     @Y("el usuario con id {string} es creado")
     public void userIsCreated(String id) throws Exception {
         userWithId(id);
-        userEventLaunched(id,UserCreated.class);
+        userEventLaunched(id,ArgumentCaptor.forClass(UserCreated.class));
     }
 
     @Y("el usuario con id {string} no es creado")
     public void userIsNotCreated(String id) throws Exception {
-        userEventNotLaunched(id,UserCreated.class);
+        userEventNotLaunched(id,ArgumentCaptor.forClass(UserCreated.class));
     }
 
     @Y("el usuario con id {string} es actualizado")
     public void userIsUpdated(String id) throws Exception {
         userWithId(id);
-        userEventLaunched(id,UserUpdated.class);
+        userEventLaunched(id,ArgumentCaptor.forClass(UserUpdated.class));
     }
     @Y("el usuario con id {string} no es actualizado")
     public void userIsNotUpdated(String id) throws Exception {
-        userEventNotLaunched(id,UserUpdated.class);
+        userEventNotLaunched(id,ArgumentCaptor.forClass(UserUpdated.class));
     }
 
     @Y("el usuario con id {string} es eliminado")
     public void userIsDeleted(String id) throws Exception {
         userWithId(id);
-        userEventLaunched(id,UserDeleted.class);
+        userEventLaunched(id,ArgumentCaptor.forClass(UserDeleted.class));
     }
 
     @Y("el usuario con id {string} no es eliminado")
     public void userIsNotDeleted(String id) throws Exception {
         userWithId(id);
-        userEventNotLaunched(id,UserDeleted.class);
+        userEventNotLaunched(id,ArgumentCaptor.forClass(UserDeleted.class));
     }
 
 }

@@ -1,8 +1,11 @@
 package es.um.atica.faker.users.application.services.command;
 
-import es.um.atica.shared.domain.cqrs.Command;
+import java.util.UUID;
 
-public class CreateUserCommand extends Command {
+import es.um.atica.faker.users.domain.model.UserName;
+import es.um.atica.shared.domain.cqrs.SyncCommand;
+
+public class CreateUserCommand extends SyncCommand<Void> {
     
     private String id;
     private String name;
@@ -12,6 +15,9 @@ public class CreateUserCommand extends Command {
     }
 
     public static CreateUserCommand of(String id, String name) {
+        // Validate Command Data for UI
+        UserName.of(name);
+        UUID.fromString(id);
         return new CreateUserCommand(id, name);
     }
 

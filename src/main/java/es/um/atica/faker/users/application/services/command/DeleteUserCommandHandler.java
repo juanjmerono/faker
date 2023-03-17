@@ -21,7 +21,7 @@ public class DeleteUserCommandHandler implements CommandHandler<DeleteUserComman
     private EventBus eventBus;
 
     @Override
-    public void handle(DeleteUserCommand command) throws Exception {
+    public void handle(DeleteUserCommand command) {
         usersReadRepository.findUser(command.getId().toString()).ifPresent((u)->{
             u.deleteUser();
             usersWriteRepository.deleteUser(u);

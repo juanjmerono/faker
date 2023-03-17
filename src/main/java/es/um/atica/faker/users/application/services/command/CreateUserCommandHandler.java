@@ -9,11 +9,11 @@ import es.um.atica.faker.users.application.ports.UsersReadRepository;
 import es.um.atica.faker.users.application.ports.UsersWriteRepository;
 import es.um.atica.faker.users.domain.model.User;
 import es.um.atica.faker.users.domain.model.UserName;
-import es.um.atica.shared.domain.cqrs.CommandHandler;
+import es.um.atica.shared.domain.cqrs.SyncCommandHandler;
 import es.um.atica.shared.domain.events.EventBus;
 
 @Component
-public class CreateUserCommandHandler implements CommandHandler<CreateUserCommand>{
+public class CreateUserCommandHandler implements SyncCommandHandler<Void,CreateUserCommand>{
 
     @Autowired
     private UsersWriteRepository usersWriteRepository;
@@ -25,7 +25,7 @@ public class CreateUserCommandHandler implements CommandHandler<CreateUserComman
     private EventBus eventBus;
 
     @Override
-    public void handle(CreateUserCommand command) throws Exception {
+    public Void handle(CreateUserCommand command) {
         usersReadRepository.findUser(command.getId().toString())
             .ifPresentOrElse(
                 (u)-> { throw new UnsupportedOperationException(u.getId().toString()); },
@@ -34,7 +34,8 @@ public class CreateUserCommandHandler implements CommandHandler<CreateUserComman
                     usersWriteRepository.saveUser(usr);
                     eventBus.publish(usr);
                 }
-            );        
+            );
+        return null;        
     }
 
 }

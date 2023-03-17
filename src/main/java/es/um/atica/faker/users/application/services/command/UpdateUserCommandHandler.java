@@ -22,7 +22,7 @@ public class UpdateUserCommandHandler implements CommandHandler<UpdateUserComman
     private EventBus eventBus;
 
     @Override
-    public void handle(UpdateUserCommand command) throws Exception {
+    public void handle(UpdateUserCommand command) {
         usersReadRepository.findUser(command.getId().toString()).ifPresent((u)->{
             u.updateUser(UserName.of(command.getName()));
             usersWriteRepository.saveUser(u);
