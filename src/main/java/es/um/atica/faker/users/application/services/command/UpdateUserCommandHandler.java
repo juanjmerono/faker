@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import es.um.atica.faker.users.application.ports.UsersReadRepository;
 import es.um.atica.faker.users.application.ports.UsersWriteRepository;
+import es.um.atica.faker.users.domain.model.UserAge;
 import es.um.atica.faker.users.domain.model.UserName;
 import es.um.atica.shared.domain.cqrs.CommandHandler;
 import es.um.atica.shared.domain.events.EventBus;
@@ -23,8 +24,10 @@ public class UpdateUserCommandHandler implements CommandHandler<UpdateUserComman
 
     @Override
     public void handle(UpdateUserCommand command) {
+        // Idempotency
         usersReadRepository.findUser(command.getId()).ifPresent((u)->{
-            u.updateUser(UserName.of(command.getName()));
+            if (command.getName().isPresent()) u.updateUserName(UserName.of(command.getName().get()));
+            if (command.getAge().isPresent()) u.updateUserAge(UserAge.of(command.getAge().get()));
             usersWriteRepository.saveUser(u);
             eventBus.publish(u);
         });

@@ -22,6 +22,7 @@ public class DeleteUserCommandHandler implements CommandHandler<DeleteUserComman
 
     @Override
     public void handle(DeleteUserCommand command) {
+        // Idempotency
         usersReadRepository.findUser(command.getId()).ifPresent((u)->{
             u.deleteUser();
             usersWriteRepository.deleteUser(u);

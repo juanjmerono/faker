@@ -88,9 +88,9 @@ public class CucumberSteps extends CucumberSpringConfiguration {
             .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
     }
 
-    @Cuando("trata de crear el usuario {string} con nombre {string}")
-    public void createUsuarioPOST(String id, String name) throws Exception {
-        UserDTO usr = UserDTO.builder().id(id).name(name).build();
+    @Cuando("trata de crear el usuario {string} con nombre {string} y {int} años")
+    public void createUsuarioPOST(String id, String name, int age) throws Exception {
+        UserDTO usr = UserDTO.builder().id(id).name(name).age(age).build();
         mvcResult = mvc.perform(MockMvcRequestBuilders.post(apiPath+"/"+id)
             .with(jwt)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -144,13 +144,13 @@ public class CucumberSteps extends CucumberSpringConfiguration {
         assertEquals(409,mvcResult.getResponse().getStatus());
     }
 
-    @Entonces("obtiene una respuesta de argumento ilegal")
-    public void obtieneIllegal() throws Exception {
+    @Entonces("obtiene una respuesta de argumento ilegal {string}")
+    public void obtieneIllegal(String message) throws Exception {
         assertEquals(400,mvcResult.getResponse().getStatus());
         ErrorDTO error = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<ErrorDTO>() {});
         assertEquals(400, error.getStatus());
         assertEquals("java.lang.IllegalArgumentException", error.getException());
-        assertEquals("User name not valid!", error.getError());
+        assertEquals(message, error.getError());
     }
 
     @Y("la lista de usuarios no está vacía")

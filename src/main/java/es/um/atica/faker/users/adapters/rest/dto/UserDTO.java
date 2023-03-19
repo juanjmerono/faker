@@ -10,12 +10,15 @@ public class UserDTO {
     private String id;
     @Getter
     private String name;
+    @Getter
+    private Integer age;
 
     public static UserDTO of(User user) {
         return UserDTO
             .builder()
             .id(user.getId().getValue())
             .name(user.getName().getValue())
+            .age(user.getAge().getValue())
             .build();
     }
 }

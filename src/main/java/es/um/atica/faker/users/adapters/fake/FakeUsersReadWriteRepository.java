@@ -12,7 +12,9 @@ import com.github.javafaker.Faker;
 
 import es.um.atica.faker.users.application.ports.UsersReadRepository;
 import es.um.atica.faker.users.application.ports.UsersWriteRepository;
+import es.um.atica.faker.users.domain.factory.UsersFactory;
 import es.um.atica.faker.users.domain.model.User;
+import es.um.atica.faker.users.domain.model.UserAge;
 import es.um.atica.faker.users.domain.model.UserId;
 import es.um.atica.faker.users.domain.model.UserName;
 
@@ -25,11 +27,25 @@ public class FakeUsersReadWriteRepository implements UsersReadRepository,UsersWr
     public FakeUsersReadWriteRepository() {
         Faker faker = Faker.instance();
         for (int k=0; k<faker.random().nextInt(10, 20); k++) {
-            User u = User.of(UserId.randomId(),UserName.of(faker.name().fullName()));
+            User u = UsersFactory.createUserWithDefaultPreferences(
+                UserId.randomId(),
+                UserName.of(faker.name().fullName()),
+                UserAge.of(faker.random().nextInt(18, 120))
+            );
             users.put(u.getId().getValue(),u);
         }
-        users.put("30497182-c376-11ed-afa1-0242ac120002",User.of(UserId.of("30497182-c376-11ed-afa1-0242ac120002"),UserName.of(faker.name().fullName())));
-        users.put("30497182-c376-11ed-afa1-0242ac220002",User.of(UserId.of("30497182-c376-11ed-afa1-0242ac220002"),UserName.of(faker.name().fullName())));
+        users.put("30497182-c376-11ed-afa1-0242ac120002",
+            UsersFactory.createUserWithDefaultPreferences(
+                UserId.of("30497182-c376-11ed-afa1-0242ac120002"),
+                UserName.of(faker.name().fullName()),
+                UserAge.of(faker.random().nextInt(18, 120))
+            ));
+        users.put("30497182-c376-11ed-afa1-0242ac220002",
+            UsersFactory.createUserWithDefaultPreferences(
+                UserId.of("30497182-c376-11ed-afa1-0242ac220002"),
+                UserName.of(faker.name().fullName()),
+                UserAge.of(faker.random().nextInt(18, 120))
+            ));
     }
 
     @Override

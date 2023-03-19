@@ -44,6 +44,7 @@ public class UsersErrorController {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorDTO> handleIllegalArgumentException(Exception ex, HttpServletRequest req) {
+        //ex.printStackTrace(System.err);
         return ResponseEntity
             .status(HttpStatus.BAD_REQUEST)
             .body(ErrorDTO.builder()

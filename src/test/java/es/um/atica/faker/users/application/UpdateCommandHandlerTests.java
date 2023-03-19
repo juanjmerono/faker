@@ -3,6 +3,8 @@ package es.um.atica.faker.users.application;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.never;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
@@ -38,7 +40,7 @@ public class UpdateCommandHandlerTests {
     @Test
     public void actualizar_usuario_datos_correctos() throws Exception {
         // Dado un comando update con id y nombre correcto
-        UpdateUserCommand upd = UpdateUserCommand.of(ID_USER,ID_USER_NAME);
+        UpdateUserCommand upd = UpdateUserCommand.of(ID_USER,Optional.of(ID_USER_NAME),Optional.empty());
         // Cuando se lanza el comando
         updateUserCommandHandler.handle(upd);
         // Entonces se actualiza el usuario
@@ -56,7 +58,7 @@ public class UpdateCommandHandlerTests {
     @Test
     public void actualizar_usuario_inexistente() throws Exception {
         // Dado un comando update con id inexistente y nombre correcto
-        UpdateUserCommand upd = UpdateUserCommand.of(ID_NOT_EXISTING_USER,ID_USER_NAME);
+        UpdateUserCommand upd = UpdateUserCommand.of(ID_NOT_EXISTING_USER,Optional.of(ID_USER_NAME),Optional.empty());
         // Cuando se lanza el comando
         updateUserCommandHandler.handle(upd);
         // Entonces no se actualiza el usuario

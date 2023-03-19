@@ -5,7 +5,9 @@ import org.springframework.stereotype.Component;
 
 import es.um.atica.faker.users.application.ports.UsersReadRepository;
 import es.um.atica.faker.users.application.ports.UsersWriteRepository;
+import es.um.atica.faker.users.domain.factory.UsersFactory;
 import es.um.atica.faker.users.domain.model.User;
+import es.um.atica.faker.users.domain.model.UserAge;
 import es.um.atica.faker.users.domain.model.UserId;
 import es.um.atica.faker.users.domain.model.UserName;
 import es.um.atica.shared.domain.cqrs.SyncCommandHandler;
@@ -25,11 +27,17 @@ public class CreateUserCommandHandler implements SyncCommandHandler<Void,CreateU
 
     @Override
     public Void handle(CreateUserCommand command) {
+        // Idempotency
         usersReadRepository.findUser(command.getId())
             .ifPresentOrElse(
                 (u)-> { throw new UnsupportedOperationException(u.getId().getValue()); },
                 () -> {
-                    User usr = User.createUser(UserId.of(command.getId()),UserName.of(command.getName()));
+                    User usr = UsersFactory
+                    .createUserWithDefaultPreferences(
+                        UserId.of(command.getId()),
+                        UserName.of(command.getName()),
+                        UserAge.of(command.getAge()));
+                    usr.createUser();
                     usersWriteRepository.saveUser(usr);
                     eventBus.publish(usr);
                 }

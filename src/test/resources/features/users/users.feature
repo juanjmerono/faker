@@ -57,33 +57,40 @@ Característica: Usuarios
   @users @create @unauthorized @error
   Escenario: Crear un usuario sin autenticar
     Dado un usuario no autenticado
-    Cuando trata de crear el usuario "30497182-c376-11ed-afa1-0242ac120001" con nombre "Pepe Lopez"
+    Cuando trata de crear el usuario "30497182-c376-11ed-afa1-0242ac120001" con nombre "Pepe Lopez" y 18 años
     Entonces obtiene un error de autenticación
 
   @users @create @forbidden @error
   Escenario: Crear un usuario autenticado sin autorización
     Dado el usuario autenticado "user@acme.es"
-    Cuando trata de crear el usuario "30497182-c376-11ed-afa1-0242ac120001" con nombre "Pepe Lopez"
+    Cuando trata de crear el usuario "30497182-c376-11ed-afa1-0242ac120001" con nombre "Pepe Lopez" y 18 años
     Entonces obtiene un error de autorización
 
   @users @create @success
   Escenario: Crear un usuario autenticado con autorización
     Dado el usuario autenticado "admin@acme.es"
-    Cuando trata de crear el usuario "30497182-c376-11ed-afa1-0242ac120001" con nombre "Pepe Lopez"
+    Cuando trata de crear el usuario "30497182-c376-11ed-afa1-0242ac120001" con nombre "Pepe Lopez" y 18 años
     Entonces obtiene una respuesta correcta
     Y el usuario con id "30497182-c376-11ed-afa1-0242ac120001" es creado
 
   @users @create @error
   Escenario: Crear un usuario sin nombre autenticado con autorización
     Dado el usuario autenticado "admin@acme.es"
-    Cuando trata de crear el usuario "30497182-c376-11ed-afa1-0242ac120003" con nombre "          "
-    Entonces obtiene una respuesta de argumento ilegal
+    Cuando trata de crear el usuario "30497182-c376-11ed-afa1-0242ac120003" con nombre "          " y 18 años
+    Entonces obtiene una respuesta de argumento ilegal "User name could not be empty!"
+    Y el usuario con id "30497182-c376-11ed-afa1-0242ac120003" no es creado
+
+  @users @create @error
+  Escenario: Crear un usuario menor de edad autenticado con autorización
+    Dado el usuario autenticado "admin@acme.es"
+    Cuando trata de crear el usuario "30497182-c376-11ed-afa1-0242ac120003" con nombre "Pepe Lopez" y 10 años
+    Entonces obtiene una respuesta de argumento ilegal "User age could not be below 18!"
     Y el usuario con id "30497182-c376-11ed-afa1-0242ac120003" no es creado
 
   @users @create @error
   Escenario: Crear un usuario que ya existe autenticado con autorización
     Dado el usuario autenticado "admin@acme.es"
-    Cuando trata de crear el usuario "30497182-c376-11ed-afa1-0242ac120002" con nombre "Pepe Lopez"
+    Cuando trata de crear el usuario "30497182-c376-11ed-afa1-0242ac120002" con nombre "Pepe Lopez" y 18 años
     Entonces obtiene una respuesta de elemento existente
     Y el usuario con id "30497182-c376-11ed-afa1-0242ac120003" no es creado
 
@@ -112,7 +119,7 @@ Característica: Usuarios
   Escenario: Actualizar un usuario sin nombre autenticado con autorización
     Dado el usuario autenticado "admin@acme.es"
     Cuando trata de actualizar el usuario "30497182-c376-11ed-afa1-0242ac120002" con nombre "         "
-    Entonces obtiene una respuesta de argumento ilegal
+    Entonces obtiene una respuesta de argumento ilegal "User name could not be empty!"
 
   @users @update @success
   Escenario: Actualizar un usuario inexistente autenticado con autorización

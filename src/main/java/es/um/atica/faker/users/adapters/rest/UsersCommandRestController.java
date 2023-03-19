@@ -1,5 +1,7 @@
 package es.um.atica.faker.users.adapters.rest;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -38,7 +40,7 @@ public class UsersCommandRestController {
     public EntityModel<UserDTO> createUser(@AuthenticationPrincipal Jwt jwt, 
         @PathVariable(name="id",required = true) String userId,
         @RequestBody UserDTO usr) throws Exception {
-        syncCommandBus.handle(CreateUserCommand.of(userId, usr.getName()));
+        syncCommandBus.handle(CreateUserCommand.of(userId, usr.getName(), usr.getAge()));
         return usersModelAssembler.toModel(UserDTO.builder().id(userId).build());
     }
 
@@ -47,7 +49,7 @@ public class UsersCommandRestController {
     public EntityModel<UserDTO> updateUser(@AuthenticationPrincipal Jwt jwt, 
         @PathVariable(name="id",required = true) String userId,
         @RequestBody UserDTO usr) throws Exception {
-        commandBus.handle(UpdateUserCommand.of(userId, usr.getName()));
+        commandBus.handle(UpdateUserCommand.of(userId, Optional.ofNullable(usr.getName()), Optional.ofNullable(usr.getAge())));
         return usersModelAssembler.toModel(UserDTO.builder().id(userId).build());
     }
 
