@@ -1,13 +1,12 @@
 package es.um.atica.faker.users.adapters.jpa;
 
-import java.util.UUID;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import es.um.atica.faker.users.domain.model.User;
+import es.um.atica.faker.users.domain.model.UserId;
 import es.um.atica.faker.users.domain.model.UserName;
 
 @Entity
@@ -22,11 +21,11 @@ public class UserEntity {
     }
 
     public static UserEntity of (User usr) {
-        return new UserEntity(usr.getId().toString(),usr.getName().getValue());
+        return new UserEntity(usr.getId().getValue(),usr.getName().getValue());
     }
 
     public User toModel() {
-        return User.of(UUID.fromString(this.id), UserName.of(this.name));
+        return User.of(UserId.of(this.id), UserName.of(this.name));
     }
 
     @Id

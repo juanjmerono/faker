@@ -12,7 +12,7 @@ public class UserDeleted extends Event {
     }
 
     public static UserDeleted of (User user) {
-        return new UserDeleted(user.getId().toString());
+        return new UserDeleted(user.getId().getValue());
     }
 
     public String getUserId() { return userId; }

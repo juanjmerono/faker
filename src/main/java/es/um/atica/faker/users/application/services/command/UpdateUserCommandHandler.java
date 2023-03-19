@@ -23,7 +23,7 @@ public class UpdateUserCommandHandler implements CommandHandler<UpdateUserComman
 
     @Override
     public void handle(UpdateUserCommand command) {
-        usersReadRepository.findUser(command.getId().toString()).ifPresent((u)->{
+        usersReadRepository.findUser(command.getId()).ifPresent((u)->{
             u.updateUser(UserName.of(command.getName()));
             usersWriteRepository.saveUser(u);
             eventBus.publish(u);

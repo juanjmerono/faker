@@ -1,7 +1,6 @@
 package es.um.atica.faker.users.application.services.command;
 
-import java.util.UUID;
-
+import es.um.atica.faker.users.domain.model.UserId;
 import es.um.atica.faker.users.domain.model.UserName;
 import es.um.atica.shared.domain.cqrs.Command;
 
@@ -17,7 +16,7 @@ public class UpdateUserCommand extends Command {
     public static UpdateUserCommand of(String id, String name) {
         // Validate Command Data for UI
         UserName.of(name);
-        UUID.fromString(id);
+        UserId.of(id);
         return new UpdateUserCommand(id, name);
     }
 

@@ -22,7 +22,7 @@ public class DeleteUserCommandHandler implements CommandHandler<DeleteUserComman
 
     @Override
     public void handle(DeleteUserCommand command) {
-        usersReadRepository.findUser(command.getId().toString()).ifPresent((u)->{
+        usersReadRepository.findUser(command.getId()).ifPresent((u)->{
             u.deleteUser();
             usersWriteRepository.deleteUser(u);
             eventBus.publish(u);

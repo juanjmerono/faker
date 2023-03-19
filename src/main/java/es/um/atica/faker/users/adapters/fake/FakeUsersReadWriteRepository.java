@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.UUID;
 
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
@@ -14,6 +13,7 @@ import com.github.javafaker.Faker;
 import es.um.atica.faker.users.application.ports.UsersReadRepository;
 import es.um.atica.faker.users.application.ports.UsersWriteRepository;
 import es.um.atica.faker.users.domain.model.User;
+import es.um.atica.faker.users.domain.model.UserId;
 import es.um.atica.faker.users.domain.model.UserName;
 
 @Service
@@ -25,11 +25,11 @@ public class FakeUsersReadWriteRepository implements UsersReadRepository,UsersWr
     public FakeUsersReadWriteRepository() {
         Faker faker = Faker.instance();
         for (int k=0; k<faker.random().nextInt(10, 20); k++) {
-            User u = User.of(UUID.randomUUID(),UserName.of(faker.name().fullName()));
-            users.put(u.getId().toString(),u);
+            User u = User.of(UserId.randomId(),UserName.of(faker.name().fullName()));
+            users.put(u.getId().getValue(),u);
         }
-        users.put("30497182-c376-11ed-afa1-0242ac120002",User.of(UUID.fromString("30497182-c376-11ed-afa1-0242ac120002"),UserName.of(faker.name().fullName())));
-        users.put("30497182-c376-11ed-afa1-0242ac220002",User.of(UUID.fromString("30497182-c376-11ed-afa1-0242ac220002"),UserName.of(faker.name().fullName())));
+        users.put("30497182-c376-11ed-afa1-0242ac120002",User.of(UserId.of("30497182-c376-11ed-afa1-0242ac120002"),UserName.of(faker.name().fullName())));
+        users.put("30497182-c376-11ed-afa1-0242ac220002",User.of(UserId.of("30497182-c376-11ed-afa1-0242ac220002"),UserName.of(faker.name().fullName())));
     }
 
     @Override
@@ -44,12 +44,12 @@ public class FakeUsersReadWriteRepository implements UsersReadRepository,UsersWr
 
     @Override
     public void saveUser(User user) {
-        users.put(user.getId().toString(),user);
+        users.put(user.getId().getValue(),user);
     }
 
     @Override
     public void deleteUser(User user) {
-        users.remove(user.getId().toString());
+        users.remove(user.getId().getValue());
     }
     
 }

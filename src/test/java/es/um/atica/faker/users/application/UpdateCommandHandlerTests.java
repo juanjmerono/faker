@@ -45,7 +45,7 @@ public class UpdateCommandHandlerTests {
         ArgumentCaptor<User> user = ArgumentCaptor.forClass(User.class);
         Mockito.verify(usersWriteRepository).saveUser(user.capture());
         // Y tiene el id y name esperado
-        assertEquals(ID_USER, user.getValue().getId().toString());
+        assertEquals(ID_USER, user.getValue().getId().getValue());
         assertEquals(ID_USER_NAME, user.getValue().getName().getValue());
         // Y se lanza el evento
         ArgumentCaptor<UserUpdated> event = ArgumentCaptor.forClass(UserUpdated.class);

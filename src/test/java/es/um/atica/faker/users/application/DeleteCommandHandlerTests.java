@@ -44,7 +44,7 @@ public class DeleteCommandHandlerTests {
         ArgumentCaptor<User> user = ArgumentCaptor.forClass(User.class);
         Mockito.verify(usersWriteRepository).deleteUser(user.capture());
         // Y tiene el id esperado
-        assertEquals(ID_USER, user.getValue().getId().toString());
+        assertEquals(ID_USER, user.getValue().getId().getValue());
         // Y se lanza el evento
         ArgumentCaptor<UserDeleted> event = ArgumentCaptor.forClass(UserDeleted.class);
         Mockito.verify(eventBus).publish(event.capture());

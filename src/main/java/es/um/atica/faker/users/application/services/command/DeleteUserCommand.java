@@ -1,7 +1,6 @@
 package es.um.atica.faker.users.application.services.command;
 
-import java.util.UUID;
-
+import es.um.atica.faker.users.domain.model.UserId;
 import es.um.atica.shared.domain.cqrs.Command;
 
 public class DeleteUserCommand extends Command {
@@ -14,7 +13,7 @@ public class DeleteUserCommand extends Command {
 
     public static DeleteUserCommand of(String id) {
         // Validate Command Data for UI
-        UUID.fromString(id);
+        UserId.of(id);
         return new DeleteUserCommand(id);
     }
 

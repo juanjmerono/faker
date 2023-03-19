@@ -12,7 +12,7 @@ public class UserCreated extends Event {
     }
 
     public static UserCreated of (User user) {
-        return new UserCreated(user.getId().toString());
+        return new UserCreated(user.getId().getValue());
     }
 
     public String getUserId() { return userId; }
