@@ -11,11 +11,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.TestPropertySource;
 
-import es.um.atica.faker.users.application.ports.UsersWriteRepository;
-import es.um.atica.faker.users.application.services.command.DeleteUserCommand;
-import es.um.atica.faker.users.application.services.command.DeleteUserCommandHandler;
+import es.um.atica.faker.users.application.command.DeleteUserCommand;
+import es.um.atica.faker.users.application.command.DeleteUserCommandHandler;
 import es.um.atica.faker.users.domain.event.UserDeleted;
 import es.um.atica.faker.users.domain.model.User;
+import es.um.atica.faker.users.domain.repository.UsersWriteRepository;
 import es.um.atica.shared.domain.events.EventBus;
 
 @SpringBootTest

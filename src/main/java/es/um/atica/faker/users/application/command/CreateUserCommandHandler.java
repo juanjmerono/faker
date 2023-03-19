@@ -1,15 +1,17 @@
-package es.um.atica.faker.users.application.services.command;
+package es.um.atica.faker.users.application.command;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import es.um.atica.faker.users.application.ports.UsersReadRepository;
-import es.um.atica.faker.users.application.ports.UsersWriteRepository;
+import es.um.atica.faker.users.application.service.UsersOriginCountryService;
 import es.um.atica.faker.users.domain.factory.UsersFactory;
 import es.um.atica.faker.users.domain.model.User;
 import es.um.atica.faker.users.domain.model.UserAge;
 import es.um.atica.faker.users.domain.model.UserId;
 import es.um.atica.faker.users.domain.model.UserName;
+import es.um.atica.faker.users.domain.model.UserOriginCountry;
+import es.um.atica.faker.users.domain.repository.UsersReadRepository;
+import es.um.atica.faker.users.domain.repository.UsersWriteRepository;
 import es.um.atica.shared.domain.cqrs.SyncCommandHandler;
 import es.um.atica.shared.domain.events.EventBus;
 
@@ -23,6 +25,9 @@ public class CreateUserCommandHandler implements SyncCommandHandler<Void,CreateU
     private UsersReadRepository usersReadRepository;
 
     @Autowired
+    private UsersOriginCountryService usersOriginCountryService;
+
+    @Autowired
     private EventBus eventBus;
 
     @Override
@@ -33,10 +38,11 @@ public class CreateUserCommandHandler implements SyncCommandHandler<Void,CreateU
                 (u)-> { throw new UnsupportedOperationException(u.getId().getValue()); },
                 () -> {
                     User usr = UsersFactory
-                    .createUserWithDefaultPreferences(
-                        UserId.of(command.getId()),
-                        UserName.of(command.getName()),
-                        UserAge.of(command.getAge()));
+                        .createUserWithDefaultPreferences(
+                            UserId.of(command.getId()),
+                            UserName.of(command.getName()),
+                            UserAge.of(command.getAge()),
+                            UserOriginCountry.of(usersOriginCountryService.getOriginCountry(command.getIPAddress())));
                     usr.createUser();
                     usersWriteRepository.saveUser(usr);
                     eventBus.publish(usr);

@@ -1,4 +1,4 @@
-package es.um.atica.faker.users.application.services.query;
+package es.um.atica.faker.users.application.query;
 
 import java.util.Optional;
 

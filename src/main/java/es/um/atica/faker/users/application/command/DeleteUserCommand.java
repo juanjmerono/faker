@@ -1,4 +1,4 @@
-package es.um.atica.faker.users.application.services.command;
+package es.um.atica.faker.users.application.command;
 
 import es.um.atica.faker.users.domain.model.UserId;
 import es.um.atica.shared.domain.cqrs.Command;

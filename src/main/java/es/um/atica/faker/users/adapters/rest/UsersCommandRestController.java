@@ -2,6 +2,8 @@ package es.um.atica.faker.users.adapters.rest;
 
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.um.atica.faker.users.adapters.rest.dto.UserDTO;
-import es.um.atica.faker.users.application.services.command.CreateUserCommand;
-import es.um.atica.faker.users.application.services.command.DeleteUserCommand;
-import es.um.atica.faker.users.application.services.command.UpdateUserCommand;
+import es.um.atica.faker.users.application.command.CreateUserCommand;
+import es.um.atica.faker.users.application.command.DeleteUserCommand;
+import es.um.atica.faker.users.application.command.UpdateUserCommand;
 import es.um.atica.shared.domain.cqrs.CommandBus;
 import es.um.atica.shared.domain.cqrs.SyncCommandBus;
 
@@ -39,8 +41,9 @@ public class UsersCommandRestController {
     @PreAuthorize("hasPermission(#jwt, 'CREATE_USERS')")
     public EntityModel<UserDTO> createUser(@AuthenticationPrincipal Jwt jwt, 
         @PathVariable(name="id",required = true) String userId,
-        @RequestBody UserDTO usr) throws Exception {
-        syncCommandBus.handle(CreateUserCommand.of(userId, usr.getName(), usr.getAge()));
+        @RequestBody UserDTO usr,
+        HttpServletRequest req) throws Exception {
+        syncCommandBus.handle(CreateUserCommand.of(userId, usr.getName(), usr.getAge(), req.getRemoteAddr()));
         return usersModelAssembler.toModel(UserDTO.builder().id(userId).build());
     }
 

@@ -1,10 +1,10 @@
-package es.um.atica.faker.users.application.services.command;
+package es.um.atica.faker.users.application.command;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import es.um.atica.faker.users.application.ports.UsersReadRepository;
-import es.um.atica.faker.users.application.ports.UsersWriteRepository;
+import es.um.atica.faker.users.domain.repository.UsersReadRepository;
+import es.um.atica.faker.users.domain.repository.UsersWriteRepository;
 import es.um.atica.shared.domain.cqrs.CommandHandler;
 import es.um.atica.shared.domain.events.EventBus;
 

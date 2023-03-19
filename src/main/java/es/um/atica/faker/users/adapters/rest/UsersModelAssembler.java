@@ -34,7 +34,7 @@ public class UsersModelAssembler implements RepresentationModelAssembler<UserDTO
     public CollectionModel<EntityModel<UserDTO>> toCollectionModel(Iterable<? extends UserDTO> entities) {
         PagedModel<EntityModel<UserDTO>> model = pagedResourcesAssembler.toModel((Page)entities, this);
         try {
-            model.add(linkTo(methodOn(UsersCommandRestController.class).createUser(null, null, null)).withRel("post"));
+            model.add(linkTo(methodOn(UsersCommandRestController.class).createUser(null, null, null, null)).withRel("post"));
         } catch (Exception ex) {}
         return model; 
 

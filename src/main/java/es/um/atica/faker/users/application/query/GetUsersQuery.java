@@ -1,4 +1,4 @@
-package es.um.atica.faker.users.application.services.query;
+package es.um.atica.faker.users.application.query;
 
 import es.um.atica.faker.users.domain.model.User;
 import es.um.atica.shared.domain.cqrs.Query;

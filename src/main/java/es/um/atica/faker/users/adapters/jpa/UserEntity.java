@@ -19,6 +19,7 @@ import es.um.atica.faker.users.domain.model.User;
 import es.um.atica.faker.users.domain.model.UserAge;
 import es.um.atica.faker.users.domain.model.UserId;
 import es.um.atica.faker.users.domain.model.UserName;
+import es.um.atica.faker.users.domain.model.UserOriginCountry;
 
 @Entity
 @Table(name="USERS",schema="FAKER")
@@ -26,11 +27,12 @@ public class UserEntity {
     private String id;
     private String name;
     private int age;
+    private String country;
     private List<UserPreferenceEntity> preferences;
 
     private UserEntity() {}
-    private UserEntity(String id, String name,int age,List<UserPreferenceEntity> preferences) {
-        this.id = id; this.name = name; this.age = age; this.preferences = preferences;
+    private UserEntity(String id, String name,int age,String country,List<UserPreferenceEntity> preferences) {
+        this.id = id; this.name = name; this.age = age; this.country = country; this.preferences = preferences;
     }
 
     public static UserEntity of (User usr) {
@@ -38,6 +40,7 @@ public class UserEntity {
             usr.getId().getValue(),
             usr.getName().getValue(),
             usr.getAge().getValue(),
+            usr.getCountry().getValue(),
             usr.getPreferences().stream().map(UserPreferenceEntity::of).collect(Collectors.toList()));
     }
 
@@ -46,6 +49,7 @@ public class UserEntity {
             UserId.of(this.id), 
             UserName.of(this.name),
             UserAge.of(this.age),
+            UserOriginCountry.of(this.country),
             preferences.stream().map(UserPreferenceEntity::toModel).collect(Collectors.toList()));
     }
 
@@ -61,6 +65,10 @@ public class UserEntity {
     @Column(name = "edad")
     public int getAge() { return age; }
     public void setAge(int age) { this.age = age; }
+
+    @Column(name = "pais")
+    public String getCountry() { return country; }
+    public void setCountry(String country) { this.country = country; }
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="USERS_PREFS", schema = "FAKER", joinColumns = @JoinColumn(name = "idusuario"))

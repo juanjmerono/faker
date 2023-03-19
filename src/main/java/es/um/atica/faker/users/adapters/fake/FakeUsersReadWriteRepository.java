@@ -1,6 +1,7 @@
 package es.um.atica.faker.users.adapters.fake;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.Map;
 import java.util.HashMap;
@@ -10,17 +11,19 @@ import org.springframework.stereotype.Service;
 
 import com.github.javafaker.Faker;
 
-import es.um.atica.faker.users.application.ports.UsersReadRepository;
-import es.um.atica.faker.users.application.ports.UsersWriteRepository;
+import es.um.atica.faker.users.application.service.UsersPaginatedReadService;
 import es.um.atica.faker.users.domain.factory.UsersFactory;
 import es.um.atica.faker.users.domain.model.User;
 import es.um.atica.faker.users.domain.model.UserAge;
 import es.um.atica.faker.users.domain.model.UserId;
 import es.um.atica.faker.users.domain.model.UserName;
+import es.um.atica.faker.users.domain.model.UserOriginCountry;
+import es.um.atica.faker.users.domain.repository.UsersReadRepository;
+import es.um.atica.faker.users.domain.repository.UsersWriteRepository;
 
 @Service
 //@org.springframework.context.annotation.Primary
-public class FakeUsersReadWriteRepository implements UsersReadRepository,UsersWriteRepository {
+public class FakeUsersReadWriteRepository implements UsersReadRepository,UsersWriteRepository,UsersPaginatedReadService {
 
     private Map<String,User> users = new HashMap<>();
 
@@ -30,7 +33,8 @@ public class FakeUsersReadWriteRepository implements UsersReadRepository,UsersWr
             User u = UsersFactory.createUserWithDefaultPreferences(
                 UserId.randomId(),
                 UserName.of(faker.name().fullName()),
-                UserAge.of(faker.random().nextInt(18, 120))
+                UserAge.of(faker.random().nextInt(18, 120)),
+                UserOriginCountry.of(faker.country().name())
             );
             users.put(u.getId().getValue(),u);
         }
@@ -38,14 +42,21 @@ public class FakeUsersReadWriteRepository implements UsersReadRepository,UsersWr
             UsersFactory.createUserWithDefaultPreferences(
                 UserId.of("30497182-c376-11ed-afa1-0242ac120002"),
                 UserName.of(faker.name().fullName()),
-                UserAge.of(faker.random().nextInt(18, 120))
+                UserAge.of(faker.random().nextInt(18, 120)),
+                UserOriginCountry.of(faker.country().name())
             ));
         users.put("30497182-c376-11ed-afa1-0242ac220002",
             UsersFactory.createUserWithDefaultPreferences(
                 UserId.of("30497182-c376-11ed-afa1-0242ac220002"),
                 UserName.of(faker.name().fullName()),
-                UserAge.of(faker.random().nextInt(18, 120))
+                UserAge.of(faker.random().nextInt(18, 120)),
+                UserOriginCountry.of(faker.country().name())
             ));
+    }
+
+    @Override
+    public Iterable<User> findAllUsers() {
+        return Collections.unmodifiableCollection(users.values());
     }
 
     @Override

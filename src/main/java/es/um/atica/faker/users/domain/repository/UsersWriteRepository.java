@@ -1,4 +1,4 @@
-package es.um.atica.faker.users.application.ports;
+package es.um.atica.faker.users.domain.repository;
 
 import es.um.atica.faker.users.domain.model.User;
 

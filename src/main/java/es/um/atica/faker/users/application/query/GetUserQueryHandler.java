@@ -1,12 +1,12 @@
-package es.um.atica.faker.users.application.services.query;
+package es.um.atica.faker.users.application.query;
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import es.um.atica.faker.users.application.ports.UsersReadRepository;
 import es.um.atica.faker.users.domain.model.User;
+import es.um.atica.faker.users.domain.repository.UsersReadRepository;
 import es.um.atica.shared.domain.cqrs.QueryHandler;
 
 @Component

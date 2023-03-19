@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.um.atica.faker.users.adapters.rest.dto.UserDTO;
-import es.um.atica.faker.users.application.services.query.GetUserQuery;
-import es.um.atica.faker.users.application.services.query.GetUsersQuery;
+import es.um.atica.faker.users.application.query.GetUserQuery;
+import es.um.atica.faker.users.application.query.GetUsersQuery;
 import es.um.atica.faker.users.domain.model.User;
 import es.um.atica.shared.domain.cqrs.QueryBus;
 

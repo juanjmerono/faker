@@ -1,4 +1,4 @@
-package es.um.atica.faker.users.application.services.command;
+package es.um.atica.faker.users.application.command;
 
 import java.util.Optional;
 

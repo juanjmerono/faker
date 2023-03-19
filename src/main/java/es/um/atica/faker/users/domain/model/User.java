@@ -15,24 +15,26 @@ public class User implements AggregateRoot {
     private UserId id;
     private UserName name;
     private UserAge age;
+    private UserOriginCountry country;
     private List<UserPreference> preferences;
     private EventCollection events = new EventCollection();
 
-    private User(UserId id, UserName name, UserAge age, List<UserPreference> preferences) {
-        this.id = id; this.name = name; this.age = age; this.preferences = preferences;
+    private User(UserId id, UserName name, UserAge age, UserOriginCountry country, List<UserPreference> preferences) {
+        this.id = id; this.name = name; this.age = age; this.country = country; this.preferences = preferences;
     }
 
-    public static User of (UserId id, UserName name, UserAge age) {
-        return new User(id,name,age,Collections.emptyList());
+    public static User of (UserId id, UserName name, UserAge age, UserOriginCountry country) {
+        return new User(id,name,age,country,Collections.emptyList());
     }
 
-    public static User of (UserId id, UserName name, UserAge age, List<UserPreference> preferences) {
-        return new User(id,name,age,preferences);
+    public static User of (UserId id, UserName name, UserAge age, UserOriginCountry country, List<UserPreference> preferences) {
+        return new User(id,name,age,country,preferences);
     }
 
     public UserId getId() { return id; }
     public UserName getName() { return name; }
     public UserAge getAge() { return age; }
+    public UserOriginCountry getCountry() { return country; }
     public List<UserPreference> getPreferences() { return Collections.unmodifiableList(preferences); }
 
     public void createUser() {

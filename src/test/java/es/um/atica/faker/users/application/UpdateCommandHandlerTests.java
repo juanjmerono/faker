@@ -13,11 +13,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.TestPropertySource;
 
-import es.um.atica.faker.users.application.ports.UsersWriteRepository;
-import es.um.atica.faker.users.application.services.command.UpdateUserCommand;
-import es.um.atica.faker.users.application.services.command.UpdateUserCommandHandler;
+import es.um.atica.faker.users.application.command.UpdateUserCommand;
+import es.um.atica.faker.users.application.command.UpdateUserCommandHandler;
 import es.um.atica.faker.users.domain.event.UserUpdated;
 import es.um.atica.faker.users.domain.model.User;
+import es.um.atica.faker.users.domain.repository.UsersWriteRepository;
 import es.um.atica.shared.domain.events.EventBus;
 
 @SpringBootTest
