@@ -215,14 +215,14 @@ Diagrama Secuncia QUERY
 ---
 sequenceDiagram
     actor User
-    box Blue Infrastructure
+    box rgb(178,235,242) Infrastructure
     participant Controller
     participant Bus
     end
-    box rgb(0,100,0) Application
+    box rgb(220,237,200) Application
     participant QueryHandler
     end
-    box rgb(100,80,0) Domain
+    box rgb(255,224,178) Domain
     participant Aggregate
     participant Repository
     end
@@ -258,15 +258,15 @@ Diagrama Secuncia COMMAND
 ---
 sequenceDiagram
     actor User
-    box Blue Infrastructure
+    box rgb(178,235,242) Infrastructure
     participant Controller
     participant Bus
     participant EventBus
     end
-    box rgb(0,100,0) Application
+    box rgb(220,237,200) Application
     participant CommandHandler
     end
-    box rgb(100,80,0) Domain
+    box rgb(255,224,178) Domain
     participant Aggregate
     participant Repository
     end
@@ -334,9 +334,9 @@ flowchart TB
     i1((Red))--Pasa el test-->i2((Green))
     i2--Mejora el código-->i3((Refactor))
     i3--Programa el test-->i1((Red))
-    style i1 fill:#b00
-    style i2 fill:#0b0
-    style i3 fill:#00b
+    style i1 fill:#b00,color:#fff
+    style i2 fill:#0b0,color:#fff
+    style i3 fill:#00b,color:#fff
 ```
 
 Fases:
