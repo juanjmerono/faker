@@ -115,7 +115,7 @@
 			<artifactId>cucumber-junit-platform-engine</artifactId>
 			<version>${cucumber.version}</version>
 			<scope>test</scope>
-		</dependency>		
+		</dependency>	
 		<!-- End Cucumber -->
 	</dependencies>
 
@@ -162,7 +162,87 @@
 					</systemPropertyVariables>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>net.masterthought</groupId>
+				<artifactId>maven-cucumber-reporting</artifactId>
+				<version>5.7.5</version>
+				<executions>
+					<execution>
+						<id>execution</id>
+						<phase>site</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>		
+							<projectName>${project.name}</projectName>    
+							<skip>false</skip>		
+							<outputDirectory>${project.build.directory}</outputDirectory>	     
+							<inputDirectory>${project.build.directory}</inputDirectory>
+							<jsonFiles>
+								<param>**/Cucumber.json</param>
+							</jsonFiles>	
+							<mergeFeaturesById>false</mergeFeaturesById>
+							<mergeFeaturesWithRetest>false</mergeFeaturesWithRetest>
+							<checkBuildResult>false</checkBuildResult>		    			  
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>		
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+				<execution>
+					<id>copy-resources</id>
+					<phase>site</phase>
+					<goals>
+						<goal>copy-resources</goal>
+					</goals>
+					<configuration>
+						<outputDirectory>${basedir}/target/site/cucumber</outputDirectory>
+						<resources>          
+							<resource>
+								<directory>${basedir}/target/cucumber-reports</directory>
+								<includes>
+                            		<include>Cucumber.html</include>
+                        		</includes>								
+							</resource>
+							<resource>
+								<directory>${basedir}/target/cucumber-html-reports</directory>
+							</resource>
+						</resources>              
+					</configuration>            
+				</execution>
+				</executions>
+			</plugin>				
 		</plugins>
 	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>net.masterthought</groupId>
+				<artifactId>maven-cucumber-reporting</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>index</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>			
+		</plugins>
+	</reporting>
 
 </project>

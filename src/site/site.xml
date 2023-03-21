@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="${project.name}">
+    <body>
+        <menu ref="reports"/>
+        <menu name="Cucumber">
+            <item name="Basic Report" href="cucumber/Cucumber.html" />
+            <item name="Advanced Report" href="cucumber/overview-features.html" />
+        </menu>
+    </body>
+</project>
