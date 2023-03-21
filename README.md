@@ -1288,3 +1288,4 @@ public class DBUsersReadWriteRepository implements UsersReadRepository,UsersWrit
 
 Y para terminar se publican los eventos generados durante la lógica de negocio del agregado utilizando el bus que será otra interface cuya implementación es parte de la infraestructura. Para el ejemplo no se usa nada más que el soporte propio de SpringBoot para eventos locales, pero podría muy fácilmente modificarse la infraestructura para utilizar otros elementos que permitiese la publicación o recolección de eventos remotos.
 
+[Pulsa para ver el resultado y cobertura de los tests](https://juanjmerono.github.io/faker/)
