@@ -5,17 +5,15 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import es.um.atica.faker.users.application.service.UsersPaginatedReadService;
 import es.um.atica.faker.users.domain.model.User;
 import es.um.atica.faker.users.domain.repository.UsersReadRepository;
 import es.um.atica.faker.users.domain.repository.UsersWriteRepository;
 
 @Service
 @org.springframework.context.annotation.Primary
-public class DBUsersReadWriteRepository implements UsersReadRepository,UsersWriteRepository,UsersPaginatedReadService {
+public class DBUsersReadWriteRepository implements UsersReadRepository,UsersWriteRepository {
 
     @Autowired
     private JPAUsersReadRepository jpaUsersReadRepository;
@@ -29,11 +27,6 @@ public class DBUsersReadWriteRepository implements UsersReadRepository,UsersWrit
     @Override
     public void deleteUser(User user) {
         jpaUsersReadRepository.delete(UserEntity.of(user));
-    }
-
-    @Override
-    public Iterable<User> findAllUsers(int page, int pageSize) {
-        return jpaUsersReadRepository.findAll(PageRequest.of(page,pageSize)).map(UserEntity::toModel);
     }
 
     @Override

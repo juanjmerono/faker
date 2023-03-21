@@ -1,10 +1,13 @@
 package es.um.atica.faker.users.adapters.rest.dto;
 
+import org.springframework.hateoas.server.core.Relation;
+
 import es.um.atica.faker.users.domain.model.User;
 import lombok.Builder;
 import lombok.Getter;
 
 @Builder
+@Relation(collectionRelation = "users", itemRelation = "user")
 public class UserDTO {
     @Getter
     private String id;
