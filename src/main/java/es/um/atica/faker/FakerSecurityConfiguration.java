@@ -26,6 +26,7 @@ public class FakerSecurityConfiguration extends GlobalMethodSecurityConfiguratio
         http
             .csrf().disable()
             .authorizeHttpRequests(authorize -> authorize
+                .antMatchers("/swagger*").permitAll()
                 .anyRequest().authenticated()
             )
             .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);

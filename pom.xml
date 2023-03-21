@@ -17,6 +17,7 @@
 		<java.version>11</java.version>
 		<cucumber.version>7.11.1</cucumber.version>
 		<junit.platform.version>1.9.2</junit.platform.version>
+		<springdoc.version>1.6.15</springdoc.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -51,6 +52,33 @@
 			<artifactId>javafaker</artifactId>
 			<version>1.0.2</version>
 		</dependency>
+		<!-- OpenAPI -->
+		<dependency>
+      		<groupId>org.springdoc</groupId>
+      		<artifactId>springdoc-openapi-ui</artifactId>
+      		<version>${springdoc.version}</version>
+   		</dependency>
+   		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-webmvc-core</artifactId>
+			<version>${springdoc.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-hateoas</artifactId>
+			<version>${springdoc.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-data-rest</artifactId>
+			<version>${springdoc.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-security</artifactId>
+			<version>${springdoc.version}</version>
+		</dependency>
+		<!-- End OpenAPI -->
 		<!-- TESTS -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
