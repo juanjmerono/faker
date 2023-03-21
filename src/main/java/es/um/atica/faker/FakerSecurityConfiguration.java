@@ -7,6 +7,7 @@ import org.springframework.security.access.expression.method.MethodSecurityExpre
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -22,11 +23,19 @@ public class FakerSecurityConfiguration extends GlobalMethodSecurityConfiguratio
     }
     
     @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring()
+            .antMatchers(
+                "/swagger-ui.html","/swagger-ui/*",
+                "/v3/api-docs","/v3/api-docs/*"
+            );
+    }
+        
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .csrf().disable()
             .authorizeHttpRequests(authorize -> authorize
-                .antMatchers("/swagger*").permitAll()
                 .anyRequest().authenticated()
             )
             .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);

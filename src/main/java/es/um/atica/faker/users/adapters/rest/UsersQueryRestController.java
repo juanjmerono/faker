@@ -1,5 +1,6 @@
 package es.um.atica.faker.users.adapters.rest;
 
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -22,7 +23,11 @@ import es.um.atica.faker.users.application.query.GetUserQuery;
 import es.um.atica.faker.users.application.query.GetUsersQuery;
 import es.um.atica.faker.users.domain.model.User;
 import es.um.atica.shared.domain.cqrs.QueryBus;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Tag(name = "Users Endpoints")
 @RestController
 @RequestMapping(value="/faker/v1")
 public class UsersQueryRestController {
@@ -35,6 +40,14 @@ public class UsersQueryRestController {
     @Autowired
     private UsersModelAssembler usersModelAssembler;
 
+    @Operation(
+        description = "Get all user list paginated",
+        responses = {
+            @ApiResponse(responseCode = "401", ref = "unauthorized"),
+            @ApiResponse(responseCode = "403", ref = "forbidden_get"),
+            @ApiResponse(responseCode = "200", ref = "ok_users"),
+        }
+    )
     @GetMapping("/user")
     @PreAuthorize("hasPermission(#jwt, 'GET_USERS')")
     public CollectionModel<EntityModel<UserDTO>> allUsers(@AuthenticationPrincipal Jwt jwt,
@@ -50,11 +63,21 @@ public class UsersQueryRestController {
                     pageUser.getTotalElements()));
     }
 
+    @Operation(
+        description = "Get user detail",
+        responses = {
+            @ApiResponse(responseCode = "401", ref = "unauthorized"),
+            @ApiResponse(responseCode = "403", ref = "forbidden_get"),
+            @ApiResponse(responseCode = "404", ref = "notfound"),
+            @ApiResponse(responseCode = "200", ref = "ok_user"),
+        }
+    )
     @GetMapping("/user/{id}")
     @PreAuthorize("hasPermission(#jwt, 'GET_USERS')")
     public EntityModel<UserDTO> userDetail(@AuthenticationPrincipal Jwt jwt, 
         @PathVariable(name="id",required = true) String userId) throws Exception {
-        return usersModelAssembler.toModel(queryBus.handle(GetUserQuery.of(userId)).map(UserDTO::of).orElseThrow());
+        return usersModelAssembler.toModel(queryBus.handle(GetUserQuery.of(userId)).map(UserDTO::of)
+            .orElseThrow(() -> new NoSuchElementException(String.format("User not found %s",userId))));
     }
 
 }

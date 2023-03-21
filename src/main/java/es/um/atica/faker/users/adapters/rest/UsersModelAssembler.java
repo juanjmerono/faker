@@ -17,7 +17,7 @@ import es.um.atica.faker.users.adapters.rest.dto.UserDTO;
 @Component
 public class UsersModelAssembler implements RepresentationModelAssembler<UserDTO,EntityModel<UserDTO>> {
     
-    private static final String BASE_PATH = "/faker/v1/user";
+    private static final String BASE_PATH = "/faker/v1/user/";
 
     @Autowired
     private PagedResourcesAssembler<UserDTO> pagedResourcesAssembler;

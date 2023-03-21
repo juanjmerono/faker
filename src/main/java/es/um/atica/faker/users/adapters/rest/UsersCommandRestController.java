@@ -24,6 +24,11 @@ import es.um.atica.faker.users.application.command.UpdateUserCommand;
 import es.um.atica.shared.domain.cqrs.CommandBus;
 import es.um.atica.shared.domain.cqrs.SyncCommandBus;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(name = "Users Endpoints")
 @RestController
 @RequestMapping(value="/faker/v1")
 public class UsersCommandRestController {
@@ -37,6 +42,15 @@ public class UsersCommandRestController {
     @Autowired
     private UsersModelAssembler usersModelAssembler;
 
+    @Operation(
+        description = "Create new user",
+        responses = {
+            @ApiResponse(responseCode = "401", ref = "unauthorized"),
+            @ApiResponse(responseCode = "403", ref = "forbidden_post"),
+            @ApiResponse(responseCode = "409", ref = "conflict"),
+            @ApiResponse(responseCode = "200", ref = "ok_user"),
+        }
+    )
     @PostMapping("/user/{id}")
     @PreAuthorize("hasPermission(#jwt, 'CREATE_USERS')")
     public EntityModel<UserDTO> createUser(@AuthenticationPrincipal Jwt jwt, 
@@ -47,6 +61,14 @@ public class UsersCommandRestController {
         return usersModelAssembler.toModel(UserDTO.builder().id(userId).build());
     }
 
+    @Operation(
+        description = "Update existing user",
+        responses = {
+            @ApiResponse(responseCode = "401", ref = "unauthorized"),
+            @ApiResponse(responseCode = "403", ref = "forbidden_put"),
+            @ApiResponse(responseCode = "200", ref = "ok_user"),
+        }
+    )
     @PutMapping("/user/{id}")
     @PreAuthorize("hasPermission(#jwt, 'UPDATE_USERS')")
     public EntityModel<UserDTO> updateUser(@AuthenticationPrincipal Jwt jwt, 
@@ -56,6 +78,14 @@ public class UsersCommandRestController {
         return usersModelAssembler.toModel(UserDTO.builder().id(userId).build());
     }
 
+    @Operation(
+        description = "Delete existing user",
+        responses = {
+            @ApiResponse(responseCode = "401", ref = "unauthorized"),
+            @ApiResponse(responseCode = "403", ref = "forbidden_delete"),
+            @ApiResponse(responseCode = "200", ref = "ok_user"),
+        }
+    )
     @DeleteMapping("/user/{id}")
     @PreAuthorize("hasPermission(#jwt, 'DELETE_USERS')")
     public EntityModel<UserDTO> deleteUser(@AuthenticationPrincipal Jwt jwt, 

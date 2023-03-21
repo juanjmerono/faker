@@ -53,11 +53,6 @@
 			<version>1.0.2</version>
 		</dependency>
 		<!-- OpenAPI -->
-		<dependency>
-      		<groupId>org.springdoc</groupId>
-      		<artifactId>springdoc-openapi-ui</artifactId>
-      		<version>${springdoc.version}</version>
-   		</dependency>
    		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-webmvc-core</artifactId>
@@ -78,6 +73,12 @@
 			<artifactId>springdoc-openapi-security</artifactId>
 			<version>${springdoc.version}</version>
 		</dependency>
+		<!-- Add Swagger UI -->
+		<dependency>
+      		<groupId>org.springdoc</groupId>
+      		<artifactId>springdoc-openapi-ui</artifactId>
+      		<version>${springdoc.version}</version>
+   		</dependency>
 		<!-- End OpenAPI -->
 		<!-- TESTS -->
 		<dependency>

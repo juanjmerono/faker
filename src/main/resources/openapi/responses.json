@@ -1,0 +1,174 @@
+{
+    "401": 
+        {},
+    "403_01": 
+        {
+            "timestamp": 1679417771492,
+            "status": 403,
+            "error": "Access is denied",
+            "exception": "org.springframework.security.access.AccessDeniedException",
+            "path": "/faker/v1/user/30497182-c376-11ed-afa1-0242ac120002",
+            "method": "PUT",
+            "principal": "user@acme.es"
+        },
+    "403_02":
+        {
+            "timestamp": 1679417771305,
+            "status": 403,
+            "error": "Access is denied",
+            "exception": "org.springframework.security.access.AccessDeniedException",
+            "path": "/faker/v1/user/30497182-c376-11ed-afa1-0242ac120001",
+            "method": "POST",
+            "principal": "user@acme.es"
+        },
+    "403_03":
+        {
+            "timestamp": 1679417771605,
+            "status": 403,
+            "error": "Access is denied",
+            "exception": "org.springframework.security.access.AccessDeniedException",
+            "path": "/faker/v1/user/30497182-c376-11ed-afa1-0242ac120002",
+            "method": "DELETE",
+            "principal": "user@acme.es"
+        },
+    "403_04":
+        {
+            "timestamp": 1679417771188,
+            "status": 403,
+            "error": "Access is denied",
+            "exception": "org.springframework.security.access.AccessDeniedException",
+            "path": "/faker/v1/user/30497182-c376-11ed-afa1-0242ac120002",
+            "method": "GET",
+            "principal": "user@acme.es"
+        },
+    "404": {
+            "timestamp": 1679415382699,
+            "status": 404,
+            "error": "User not found 30497182-c376-11ed-afa1-0242ac120003",
+            "exception": "java.util.NoSuchElementException",
+            "path": "/faker/v1/user/30497182-c376-11ed-afa1-0242ac120003",
+            "method": "GET",
+            "principal": "admin@acme.es"
+        },
+    "400_01": 
+        {
+            "timestamp": 1679418188500,
+            "status": 400,
+            "error": "User name could not be empty!",
+            "exception": "java.lang.IllegalArgumentException",
+            "path": "/faker/v1/user/30497182-c376-11ed-afa1-0242ac120002",
+            "method": "PUT",
+            "principal": "admin@acme.es"
+        },
+    "400_02":
+        {
+            "timestamp": 1679418188372,
+            "status": 400,
+            "error": "User age could not be below 18!",
+            "exception": "java.lang.IllegalArgumentException",
+            "path": "/faker/v1/user/30497182-c376-11ed-afa1-0242ac120003",
+            "method": "PUT",
+            "principal": "admin@acme.es"
+        },
+    "400_03":
+        {
+            "timestamp": 1679418188338,
+            "status": 400,
+            "error": "User name could not be empty!",
+            "exception": "java.lang.IllegalArgumentException",
+            "path": "/faker/v1/user/30497182-c376-11ed-afa1-0242ac120003",
+            "method": "POST",
+            "principal": "admin@acme.es"
+        },
+    "400_04":
+        {
+            "timestamp": 1679418188372,
+            "status": 400,
+            "error": "User age could not be below 18!",
+            "exception": "java.lang.IllegalArgumentException",
+            "path": "/faker/v1/user/30497182-c376-11ed-afa1-0242ac120003",
+            "method": "POST",
+            "principal": "admin@acme.es"
+        },
+    "409":
+        {
+            "timestamp": 1679417181505,
+            "status": 409,
+            "error": "Usuario ya creado 30497182-c376-11ed-afa1-0242ac120002",
+            "exception": "java.lang.UnsupportedOperationException",
+            "path": "/faker/v1/user/30497182-c376-11ed-afa1-0242ac120002",
+            "method": "POST",
+            "principal": "admin@acme.es"
+        },
+    "200_01":
+        {
+            "id": "30497182-c376-11ed-afa1-0242ac120002",
+            "name": "This is a test 2",
+            "age": 21,
+            "_links": {
+                "self": {
+                    "href": "http://localhost/faker/v1/faker/v1/user/30497182-c376-11ed-afa1-0242ac120002"
+                },
+                "put": {
+                    "href": "http://localhost/faker/v1/faker/v1/user/30497182-c376-11ed-afa1-0242ac120002"
+                },
+                "delete": {
+                    "href": "http://localhost/faker/v1/faker/v1/user/30497182-c376-11ed-afa1-0242ac120002"
+                }
+            }
+        },
+    "200_02":
+        {
+            "_embedded": {
+                "users": [
+                    {
+                        "id": "30497182-c376-11ed-afa1-0242ac220002",
+                        "name": "This is a test 1",
+                        "age": 20,
+                        "_links": {
+                            "self": {
+                                "href": "http://localhost/faker/v1/faker/v1/user/30497182-c376-11ed-afa1-0242ac220002"
+                            },
+                            "put": {
+                                "href": "http://localhost/faker/v1/faker/v1/user/30497182-c376-11ed-afa1-0242ac220002"
+                            },
+                            "delete": {
+                                "href": "http://localhost/faker/v1/faker/v1/user/30497182-c376-11ed-afa1-0242ac220002"
+                            }
+                        }
+                    },
+                    {
+                        "id": "30497182-c376-11ed-afa1-0242ac120002",
+                        "name": "This is a test 2",
+                        "age": 21,
+                        "_links": {
+                            "self": {
+                                "href": "http://localhost/faker/v1/faker/v1/user/30497182-c376-11ed-afa1-0242ac120002"
+                            },
+                            "put": {
+                                "href": "http://localhost/faker/v1/faker/v1/user/30497182-c376-11ed-afa1-0242ac120002"
+                            },
+                            "delete": {
+                                "href": "http://localhost/faker/v1/faker/v1/user/30497182-c376-11ed-afa1-0242ac120002"
+                            }
+                        }
+                    }
+                ]
+            },
+            "_links": {
+                "self": {
+                    "href": "http://localhost/faker/v1/user?page=0&size=5"
+                },
+                "post": {
+                    "href": "http://localhost/faker/v1/user/{id}",
+                    "templated": true
+                }
+            },
+            "page": {
+                "size": 5,
+                "totalElements": 2,
+                "totalPages": 1,
+                "number": 0
+            }
+        }
+}

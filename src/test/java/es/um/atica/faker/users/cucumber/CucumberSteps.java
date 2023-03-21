@@ -136,7 +136,7 @@ public class CucumberSteps extends CucumberSpringConfiguration {
         ErrorDTO error = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<ErrorDTO>() {});
         assertEquals(404, error.getStatus());
         assertEquals("java.util.NoSuchElementException", error.getException());
-        assertEquals("No value present", error.getError());
+        assertTrue(error.getError().startsWith("User not found "));
     }
 
     @Entonces("obtiene una respuesta de elemento existente")

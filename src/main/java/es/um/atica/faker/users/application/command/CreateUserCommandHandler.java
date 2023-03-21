@@ -35,7 +35,7 @@ public class CreateUserCommandHandler implements SyncCommandHandler<Void,CreateU
         // Idempotency
         usersReadRepository.findUser(command.getId())
             .ifPresentOrElse(
-                (u)-> { throw new UnsupportedOperationException(u.getId().getValue()); },
+                (u)-> { throw new UnsupportedOperationException(String.format("Usuario ya creado %s",u.getId().getValue())); },
                 () -> {
                     User usr = UsersFactory
                         .createUserWithDefaultPreferences(
