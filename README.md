@@ -432,11 +432,10 @@ Se trata de probar todo de principio a fin, en principio sin usar dobles de test
 
 Y ahora vamos a ver fragmentos de código en los que todo esto se aplica:
 
-```
-Requisitos del ejemplo: Se trata de un ejemplo muy básico, simplemente es un CRUD de usuarios, en los que se puede registrar solo a mayores de edad. Los usuarios tienen ID, Nombre, Edad y País de origen. Además para cada usuario se almacenan sus preferencias de redes sociales el nombre y una valoración de 0 a 10 según les guste más o menos. Por defecto, para usuarios menores de 29 años se establecen unas preferencias que valoran con 0 facebook mientras que para los mayores de 28 se valora con 0 tiktok. El resto de redes se valoran proporcionalmente a la edad según se consideran más o menos destinadas a jóvenes.
 
-Inicialmente todas las operaciones ejecutadas sólo se permiten para administradores del sistema.
-```
+>Requisitos del ejemplo: Se trata de un ejemplo muy básico, simplemente es un CRUD de usuarios, en los que se puede registrar solo a mayores de edad. Los usuarios tienen ID, Nombre, Edad y País de origen. Además para cada usuario se almacenan sus preferencias de redes sociales el nombre y una valoración de 0 a 10 según les guste más o menos. Por defecto, para usuarios menores de 29 años se establecen unas preferencias que valoran con 0 facebook mientras que para los mayores de 28 se valora con 0 tiktok. El resto de redes se valoran proporcionalmente a la edad según se consideran más o menos destinadas a jóvenes.
+
+>Inicialmente todas las operaciones ejecutadas sólo se permiten para administradores del sistema.
 
 ## Test de aceptación (Query)
 

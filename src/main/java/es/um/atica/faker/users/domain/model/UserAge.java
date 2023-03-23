@@ -13,4 +13,6 @@ public class UserAge {
         return new UserAge(value);
     }
     public int getValue() { return value; }
+    public boolean isOver(int n) { return value > n; }
+    public boolean isUnder(int n) { return value < n; }
 }

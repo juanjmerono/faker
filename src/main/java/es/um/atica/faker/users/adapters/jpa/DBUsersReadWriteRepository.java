@@ -12,7 +12,7 @@ import es.um.atica.faker.users.domain.repository.UsersReadRepository;
 import es.um.atica.faker.users.domain.repository.UsersWriteRepository;
 
 @Service
-@org.springframework.context.annotation.Primary
+//@org.springframework.context.annotation.Primary
 public class DBUsersReadWriteRepository implements UsersReadRepository,UsersWriteRepository {
 
     @Autowired

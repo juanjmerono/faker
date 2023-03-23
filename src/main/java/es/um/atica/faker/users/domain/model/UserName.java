@@ -11,4 +11,5 @@ public class UserName {
         return new UserName(value);
     }
     public String getValue() { return value; }
+    public boolean startsWith(String startsWith) { return value.startsWith(startsWith); }
 }

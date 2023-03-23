@@ -55,6 +55,18 @@ public class User implements AggregateRoot {
         this.addEvent(UserDeleted.of(this));
     }
 
+    public boolean isOverAge(int age) {
+        return this.age.isOver(age);
+    }
+
+    public boolean isUnderAge(int age) {
+        return this.age.isUnder(age);
+    }
+
+    public boolean nameStartsWith(String startsWith) {
+        return this.name.startsWith(startsWith);
+    }
+
     @Override
     public EventCollection getEvents() { return events; }
 

@@ -25,6 +25,23 @@ Característica: Usuarios
     Entonces obtiene una respuesta correcta
     Y la lista de usuarios no está vacía
 
+# FILTER
+
+  @users @listado @success
+  Escenario: Obtener un listado inicial de usuarios mayores de cierta edad
+    Dado el usuario autenticado "admin@acme.es"
+    Cuando trata de obtener un listado de usuarios mayores de 20 años
+    Entonces obtiene una respuesta correcta
+    Y la lista de usuarios no está vacía
+
+  @users @listado @success
+  Escenario: Obtener un listado inicial de usuarios mayores de cierta edad y cuyo nombre empieza por
+    Dado el usuario autenticado "admin@acme.es"
+    Cuando trata de obtener un listado de usuarios mayores de 20 años cuyo nombre empieza por "This"
+    Entonces obtiene una respuesta correcta
+    Y la lista de usuarios no está vacía
+
+
 # DETAIL
 
   @users @detail @unauthorized @error

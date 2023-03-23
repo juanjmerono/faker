@@ -3,6 +3,7 @@ package es.um.atica.faker.users.adapters.fake;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.github.javafaker.Faker;
 
 import es.um.atica.faker.users.application.service.UsersPaginatedReadService;
+import es.um.atica.faker.users.application.service.UsersSearchSpecificationService;
 import es.um.atica.faker.users.domain.factory.UsersFactory;
 import es.um.atica.faker.users.domain.model.User;
 import es.um.atica.faker.users.domain.model.UserAge;
@@ -20,11 +22,48 @@ import es.um.atica.faker.users.domain.model.UserName;
 import es.um.atica.faker.users.domain.model.UserOriginCountry;
 import es.um.atica.faker.users.domain.repository.UsersReadRepository;
 import es.um.atica.faker.users.domain.repository.UsersWriteRepository;
+import es.um.atica.shared.domain.specification.Specification;
 
 @Service
-//@org.springframework.context.annotation.Primary
+@org.springframework.context.annotation.Primary
 public class FakeUsersReadWriteRepository implements UsersReadRepository,UsersWriteRepository,UsersPaginatedReadService {
 
+    private UsersSearchSpecificationService usersSearchSpecificationService = new UsersSearchSpecificationService() {
+        @Override
+        public Object defaultSpec() {
+            return new Specification<User>(){
+                @Override
+                public boolean isSatisfied(User user) {
+                    return user.isOverAge(18);
+                }};
+        }
+        @Override
+        public Object buildAndSpec(Object element1, Object element2) {
+            return ((Specification<User>)element1).and((Specification<User>)element2);
+        }
+        @Override
+        public Object buildOrSpec(Object element1, Object element2) {
+            return ((Specification<User>)element1).or((Specification<User>)element2);
+        }
+        @Override
+        public Object buildSpecFor(String el1, String op, String el2) {
+            return new Specification<User>(){
+                @Override
+                public boolean isSatisfied(User user) {
+                    switch(op) {
+                        case ">": 
+                            return user.isOverAge(Integer.parseInt(el2));
+                        case "<": 
+                            return user.isUnderAge(Integer.parseInt(el2));
+                        case "~": 
+                            return user.nameStartsWith(el2);
+                        default: 
+                            return false;
+                    }    
+                }
+            };
+        }};
+        
     private Map<String,User> users = new HashMap<>();
 
     public FakeUsersReadWriteRepository() {
@@ -77,6 +116,18 @@ public class FakeUsersReadWriteRepository implements UsersReadRepository,UsersWr
     @Override
     public void deleteUser(User user) {
         users.remove(user.getId().getValue());
+    }
+
+    @Override
+    public Iterable<User> findAllUsersSpecification(Object specification, int page, int pageSize) {
+        return new PageImpl<>(new ArrayList<User>(users.values().stream()
+            .filter(usr -> ((Specification<User>)specification).isSatisfied(usr))
+            .collect(Collectors.toList())));
+    }
+
+    @Override
+    public UsersSearchSpecificationService specificationService() {
+        return usersSearchSpecificationService;
     }
     
 }

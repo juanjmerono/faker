@@ -81,6 +81,22 @@ public class CucumberSteps extends CucumberSpringConfiguration {
             .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
     }
 
+    @Cuando("trata de obtener un listado de usuarios mayores de {int} años")
+    public void listadoUsuariosFiltradoGET(int edad) throws Exception {
+        mvcResult = mvc.perform(MockMvcRequestBuilders.get(apiPath+"/search")
+            .with(jwt)
+            .param("search", String.format("age>%d",edad))
+            .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+    }
+
+    @Cuando("trata de obtener un listado de usuarios mayores de {int} años cuyo nombre empieza por {string}")
+    public void listadoUsuariosFiltradoGET(int edad, String nombre) throws Exception {
+        mvcResult = mvc.perform(MockMvcRequestBuilders.get(apiPath+"/search")
+            .with(jwt)
+            .param("search", String.format("age>%d,name~%s",edad,nombre))
+            .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+    }
+
     @Cuando("trata de obtener el detalle del usuario {string}")
     public void detalleUsuariosGET(String id) throws Exception {
         mvcResult = mvc.perform(MockMvcRequestBuilders.get(apiPath+"/"+id)

@@ -55,6 +55,7 @@ public class UsersErrorController {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorDTO> handleGeneralException(Exception ex, HttpServletRequest req) {
+        //ex.printStackTrace(System.err);
         return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex, req);
     }
 
