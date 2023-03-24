@@ -10,7 +10,7 @@ import es.um.atica.faker.users.application.service.UsersSearchSpecificationServi
 import es.um.atica.faker.users.domain.model.User;
 
 @Service
-//@org.springframework.context.annotation.Primary
+@org.springframework.context.annotation.Primary
 public class DBUsersPaginatedReadRepository implements UsersPaginatedReadService {
 
     @Autowired

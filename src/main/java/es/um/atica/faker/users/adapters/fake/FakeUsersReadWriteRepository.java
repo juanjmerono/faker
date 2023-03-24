@@ -22,10 +22,12 @@ import es.um.atica.faker.users.domain.model.UserName;
 import es.um.atica.faker.users.domain.model.UserOriginCountry;
 import es.um.atica.faker.users.domain.repository.UsersReadRepository;
 import es.um.atica.faker.users.domain.repository.UsersWriteRepository;
+import es.um.atica.shared.domain.specification.AndSpecification;
+import es.um.atica.shared.domain.specification.OrSpecification;
 import es.um.atica.shared.domain.specification.Specification;
 
 @Service
-@org.springframework.context.annotation.Primary
+//@org.springframework.context.annotation.Primary
 public class FakeUsersReadWriteRepository implements UsersReadRepository,UsersWriteRepository,UsersPaginatedReadService {
 
     private UsersSearchSpecificationService usersSearchSpecificationService = new UsersSearchSpecificationService() {
@@ -39,11 +41,11 @@ public class FakeUsersReadWriteRepository implements UsersReadRepository,UsersWr
         }
         @Override
         public Object buildAndSpec(Object element1, Object element2) {
-            return ((Specification<User>)element1).and((Specification<User>)element2);
+            return new AndSpecification<>((Specification<User>)element1, (Specification<User>)element2);
         }
         @Override
         public Object buildOrSpec(Object element1, Object element2) {
-            return ((Specification<User>)element1).or((Specification<User>)element2);
+            return new OrSpecification<>((Specification<User>)element1, (Specification<User>)element2);
         }
         @Override
         public Object buildSpecFor(String el1, String op, String el2) {
@@ -87,8 +89,8 @@ public class FakeUsersReadWriteRepository implements UsersReadRepository,UsersWr
         users.put("30497182-c376-11ed-afa1-0242ac220002",
             UsersFactory.createUserWithDefaultPreferences(
                 UserId.of("30497182-c376-11ed-afa1-0242ac220002"),
-                UserName.of(faker.name().fullName()),
-                UserAge.of(faker.random().nextInt(18, 120)),
+                UserName.of("This"+faker.name().fullName()),
+                UserAge.of(22),
                 UserOriginCountry.of(faker.country().name())
             ));
     }
@@ -121,7 +123,7 @@ public class FakeUsersReadWriteRepository implements UsersReadRepository,UsersWr
     @Override
     public Iterable<User> findAllUsersSpecification(Object specification, int page, int pageSize) {
         return new PageImpl<>(new ArrayList<User>(users.values().stream()
-            .filter(usr -> ((Specification<User>)specification).isSatisfied(usr))
+            .filter(((Specification<User>)specification)::isSatisfied)
             .collect(Collectors.toList())));
     }
 

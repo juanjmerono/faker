@@ -30,13 +30,15 @@ public interface UsersSearchSpecificationService {
     default Object buildIndividualSpec(String search) {
         return Arrays.stream(search.split("\\|"))
             .map(f -> genericSpec(f))
-            .reduce(null,(subtotal,element)->buildOrSpec(element, subtotal));
+            .reduce((subtotal,element)->buildOrSpec(element, subtotal))
+            .get();
     }
 
     default Object buildSpecificationFromSearch(List<String> search) {
         return search.stream()
             .map(s->buildIndividualSpec(s))
-            .reduce(null,(subtotal,element)->buildAndSpec(element,subtotal));
+            .reduce((subtotal,element)-> buildAndSpec(element,subtotal))
+            .get();
     }
 
 }

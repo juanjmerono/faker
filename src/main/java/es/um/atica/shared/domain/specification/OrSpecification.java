@@ -12,6 +12,6 @@ public class OrSpecification<T> implements Specification<T> {
     }
 
     public boolean isSatisfied(T object) {
-        return specifications.stream().anyMatch(s -> { return (s!=null && s.isSatisfied(object)); });
+        return specifications.stream().filter(s->s!=null).anyMatch(s -> s.isSatisfied(object));
     }
 }

@@ -12,6 +12,6 @@ public class AndSpecification<T> implements Specification<T> {
     }
 
     public boolean isSatisfied(T object) {
-        return specifications.stream().allMatch(s -> { return (s==null || s.isSatisfied(object)); });
+        return specifications.stream().filter(s-> s!=null).allMatch(s -> s.isSatisfied(object) );
     }
 }
