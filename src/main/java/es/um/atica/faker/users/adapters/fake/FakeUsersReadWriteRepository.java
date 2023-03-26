@@ -22,8 +22,6 @@ import es.um.atica.faker.users.domain.model.UserName;
 import es.um.atica.faker.users.domain.model.UserOriginCountry;
 import es.um.atica.faker.users.domain.repository.UsersReadRepository;
 import es.um.atica.faker.users.domain.repository.UsersWriteRepository;
-import es.um.atica.shared.domain.specification.AndSpecification;
-import es.um.atica.shared.domain.specification.OrSpecification;
 import es.um.atica.shared.domain.specification.Specification;
 
 @Service
@@ -41,11 +39,11 @@ public class FakeUsersReadWriteRepository implements UsersReadRepository,UsersWr
         }
         @Override
         public Object buildAndSpec(Object element1, Object element2) {
-            return new AndSpecification<>((Specification<User>)element1, (Specification<User>)element2);
+            return ((Specification<User>)element1).and((Specification<User>)element2);
         }
         @Override
         public Object buildOrSpec(Object element1, Object element2) {
-            return new OrSpecification<>((Specification<User>)element1, (Specification<User>)element2);
+            return ((Specification<User>)element1).or((Specification<User>)element2);
         }
         @Override
         public Object buildSpecFor(String el1, String op, String el2) {

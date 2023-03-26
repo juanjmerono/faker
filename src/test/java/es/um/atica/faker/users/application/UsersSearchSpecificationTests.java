@@ -14,15 +14,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
-import es.um.atica.faker.users.application.service.UsersPaginatedReadService;
+import es.um.atica.faker.users.adapters.fake.FakeUsersReadWriteRepository;
+import es.um.atica.faker.users.adapters.jpa.DBUsersPaginatedReadRepository;
 import es.um.atica.faker.users.domain.model.User;
 
 @SpringBootTest
 @TestPropertySource("classpath:test.properties")
 public class UsersSearchSpecificationTests {
     
+    //@Autowired
+    //private UsersPaginatedReadService usersPaginatedReadService;
+
     @Autowired
-    private UsersPaginatedReadService usersPaginatedReadService;
+    private FakeUsersReadWriteRepository fakeUsersReadWriteRepository;
+
+    @Autowired
+    private DBUsersPaginatedReadRepository dbUsersPaginatedReadRepository;
 
     private static Stream<Arguments> testCases() {
         return Stream.of(
@@ -42,9 +49,19 @@ public class UsersSearchSpecificationTests {
 
     @ParameterizedTest
     @MethodSource("testCases")
-    public void check_query_results(List<String> search,int page, int pageSize, int expected) {
-        Iterable<User> users = usersPaginatedReadService.findAllUsersSpecification(
-            usersPaginatedReadService.specificationService()
+    public void check_faker_query_results(List<String> search,int page, int pageSize, int expected) {
+        Iterable<User> users = fakeUsersReadWriteRepository.findAllUsersSpecification(
+            fakeUsersReadWriteRepository.specificationService()
+                .buildSpecificationFromSearch(search),
+            page, pageSize);
+        assertEquals(expected,StreamSupport.stream(users.spliterator(), false).count());
+    }
+
+    @ParameterizedTest
+    @MethodSource("testCases")
+    public void check_db_query_results(List<String> search,int page, int pageSize, int expected) {
+        Iterable<User> users = dbUsersPaginatedReadRepository.findAllUsersSpecification(
+            dbUsersPaginatedReadRepository.specificationService()
                 .buildSpecificationFromSearch(search),
             page, pageSize);
         assertEquals(expected,StreamSupport.stream(users.spliterator(), false).count());
