@@ -39,6 +39,8 @@ public class JPAUsersSpecification implements UsersSearchSpecificationService {
             @Override
             public Predicate toPredicate(Root<UserEntity> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
                 switch(op) {
+                    case ":": 
+                        return criteriaBuilder.equal(root.get(el1),"age".equals(el1)?Integer.parseInt(el2):el2);
                     case ">": 
                         return criteriaBuilder.gt(root.get(el1),Integer.parseInt(el2));
                     case "<": 

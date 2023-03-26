@@ -18,7 +18,7 @@ public interface UsersSearchSpecificationService {
 
     default Object genericSpec(String s) {
         // Parse pattern for individual spec
-        Pattern p = Pattern.compile("(\\w+)([\\>\\<\\~])(\\w+)");
+        Pattern p = Pattern.compile("(.+)([\\>\\<\\~\\:])(.+)");
         Matcher m = p.matcher(s);
         if (m.find()) {
             return buildSpecFor(m.group(1),m.group(2),m.group(3));

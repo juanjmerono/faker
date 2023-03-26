@@ -53,6 +53,11 @@ public class FakeUsersReadWriteRepository implements UsersReadRepository,UsersWr
                 @Override
                 public boolean isSatisfied(User user) {
                     switch(op) {
+                        case ":":
+                            return "age".equals(el1) ? 
+                                (!user.isOverAge(Integer.parseInt(el2)) && 
+                                !user.isUnderAge(Integer.parseInt(el2)))
+                                : user.nameStartsWith(el2);
                         case ">": 
                             return user.isOverAge(Integer.parseInt(el2));
                         case "<": 
@@ -70,27 +75,28 @@ public class FakeUsersReadWriteRepository implements UsersReadRepository,UsersWr
 
     public FakeUsersReadWriteRepository() {
         Faker faker = Faker.instance();
-        for (int k=0; k<faker.random().nextInt(10, 20); k++) {
+        // Avoid random data to perform consistent tests
+        /*for (int k=0; k<faker.random().nextInt(10, 20); k++) {
             User u = UsersFactory.createUserWithDefaultPreferences(
                 UserId.randomId(),
-                UserName.of(faker.name().fullName()),
+                UserName.of("N"+faker.name().fullName()),
                 UserAge.of(faker.random().nextInt(18, 120)),
                 UserOriginCountry.of(faker.country().name())
             );
             users.put(u.getId().getValue(),u);
-        }
-        users.put("30497182-c376-11ed-afa1-0242ac120002",
-            UsersFactory.createUserWithDefaultPreferences(
-                UserId.of("30497182-c376-11ed-afa1-0242ac120002"),
-                UserName.of(faker.name().fullName()),
-                UserAge.of(faker.random().nextInt(18, 120)),
-                UserOriginCountry.of(faker.country().name())
-            ));
+        }*/
         users.put("30497182-c376-11ed-afa1-0242ac220002",
             UsersFactory.createUserWithDefaultPreferences(
                 UserId.of("30497182-c376-11ed-afa1-0242ac220002"),
-                UserName.of("This"+faker.name().fullName()),
-                UserAge.of(22),
+                UserName.of("This is a test 1"),
+                UserAge.of(20),
+                UserOriginCountry.of(faker.country().name())
+            ));
+        users.put("30497182-c376-11ed-afa1-0242ac120002",
+            UsersFactory.createUserWithDefaultPreferences(
+                UserId.of("30497182-c376-11ed-afa1-0242ac120002"),
+                UserName.of("This is a test 2"),
+                UserAge.of(21),
                 UserOriginCountry.of(faker.country().name())
             ));
     }
