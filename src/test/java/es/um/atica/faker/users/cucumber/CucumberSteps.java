@@ -27,6 +27,7 @@ import es.um.atica.faker.users.domain.event.UserDeleted;
 import es.um.atica.faker.users.domain.event.UserUpdated;
 import es.um.atica.shared.domain.events.Event;
 import es.um.atica.shared.domain.events.EventBus;
+import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.es.Cuando;
 import io.cucumber.java.es.Dado;
@@ -54,6 +55,11 @@ public class CucumberSteps extends CucumberSpringConfiguration {
     @Dado("una API ubicada en {string}")
     public void existingAPIPath(String path) {
         apiPath = path;
+    }
+
+    @After
+    public void waitSeconds() throws InterruptedException {
+        Thread.sleep(30);
     }
 
     @Dado("un usuario no autenticado")

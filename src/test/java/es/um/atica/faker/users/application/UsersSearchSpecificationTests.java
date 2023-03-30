@@ -24,7 +24,6 @@ public class UsersSearchSpecificationTests {
     
     //@Autowired
     //private UsersPaginatedReadService usersPaginatedReadService;
-
     @Autowired
     private FakeUsersReadWriteRepository fakeUsersReadWriteRepository;
 

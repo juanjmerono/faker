@@ -2,31 +2,31 @@ package es.um.atica.shared.domain.events;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Collections;
-import java.util.Map;
 import java.util.UUID;
 
 public abstract class Event {
 
-    private EventId id;
+    private UUID id;
     private LocalDateTime date;
+    private String type;
 
     public Event() {
-        this(Collections.emptyMap());
-    }
-
-    public Event(Map<String, Object> data) {
-        this.id = new EventId(UUID.randomUUID());
+        this.id = UUID.randomUUID();
         this.date = LocalDateTime.now(ZoneId.of("UTC"));
+        this.type = String.format(this.getTypeFormat(),this.getClass().getName());
     }
 
-    public EventId getId() {
-        return id;
+    public String getId() { return this.id.toString(); }
+
+    public String getDate() { return this.date.toString(); }
+
+    public String getType() { return this.type; }
+
+    public String toString() {
+        return String.format("[id:%s][date:%s][type:%s]",id,date,type);
     }
 
-    public LocalDateTime getDate() {
-        return date;
-    }
+    public abstract String getTypeFormat();
 
     public abstract String getAggregateId();
 

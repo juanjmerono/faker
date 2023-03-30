@@ -1,27 +1,28 @@
 package es.um.atica.faker.users.domain.event;
 
 import es.um.atica.faker.users.domain.model.User;
-import es.um.atica.shared.domain.events.Event;
+import es.um.atica.faker.users.domain.model.UserId;
 
-public class UserUpdated extends Event {
+public class UserUpdated extends UserEvent {
 
-    private String userId;
     private String changelog;
 
-    private UserUpdated(String id, String changelog) {
-        this.userId = id; this.changelog = changelog;
+    public UserUpdated() { super(); }
+
+    private UserUpdated(UserId id, String changelog) {
+        super(id);
+        this.changelog = changelog;
     }
 
     public static UserUpdated of (User user, String changelog) {
-        return new UserUpdated(user.getId().getValue(), changelog);
+        return new UserUpdated(user.getId(), changelog);
     }
-
-    public String getUserId() { return userId; }
 
     public String getChangelog() { return changelog; }
 
     @Override
-    public String getAggregateId() {
-        return this.getUserId();
+    public String toString() { 
+        return super.toString() + String.format("[chlog:%s]",changelog);
     }
+
 }

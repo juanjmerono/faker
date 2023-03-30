@@ -27,12 +27,12 @@ public class UpdateCommandHandlerTests {
     private static final String ID_USER = "30497182-c376-11ed-afa1-0242ac120002";
     private static final String ID_USER_NAME = "Pepe Lopez";
     private static final String ID_NOT_EXISTING_USER = "30497182-c376-11ed-afa1-0242ac120555";
-
+    
     @Autowired
-    UpdateUserCommandHandler updateUserCommandHandler;
+    private UpdateUserCommandHandler updateUserCommandHandler;
 
     @SpyBean
-    UsersWriteRepository usersWriteRepository;
+    private UsersWriteRepository usersWriteRepository;
 
     @SpyBean
     private EventBus eventBus;
